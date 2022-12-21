@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+ 
+ <br>        No USE ........................
+<div
+    style="
+    text-align: center;
+    width:40%;
+    margin:0px auto;
+    margin-bottom: 3%;
+    padding: 2%;
+    border-style: solid;
+    border-radius: 8%;
+    box-shadow: rgba(0,0,0,0.8) 0 0 10px">
+
+        <h1 >Add Phone No</h1>
+        <p>You can add Phone Number here</p>
+
+           <div>
+                <form action="{% url 'phonenoview' %}" method="POST" enctype="multipart/form-data">
+                    
+                    {% csrf_token %}
+
+                  <table class="table">
+
+                        {{phoneno_form}}
+                
+                  </table>
+
+                        <button style="width: 50%;" type="submit" class="btn btn-primary">Next</button>
+
+              </form>
+            </div>
+
+</div> 
+
+    <script type="text/javascript">
+         document.getElementById('id_student').value = '{{skillstudentobjects}}';
+    </script>
+ 
+{% endblock content %}
+ 

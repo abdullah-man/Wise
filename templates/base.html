@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Admission | System</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="../../static/admissionsystem/img/favicon.png" rel="icon">
+    <link href="../../static/admissionsystem/img/favicon.png" rel="icon">
+    <link href="../../static/admissionsystem/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i&display=swap" rel="stylesheet">
+
+
+    <!-- Vendor CSS Files -->
+    <link href="../../static/admissionsystem/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../../static/admissionsystem/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../../static/admissionsystem/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../static/admissionsystem/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../../static/admissionsystem/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../../static/admissionsystem/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../../static/admissionsystem/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="../../static/admissionsystem/css/style.css" rel="stylesheet">
+    <link href="../../static/admissionsystem/css/Navigation.css" rel="stylesheet"> {% block style %} {% endblock %}
+
+</head>
+
+<body style="background-image: url('../../static/admissionsystem/img/bag.jpg'); background-size: auto;background-repeat: repeat;">
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top d-flex align-items-center">
+        <div class="container d-flex justify-content-between align-items-center">
+
+            <div class="logo">
+                <h1 class="text-light"><span>Wise</span></a></h1>
+                <!-- Uncomment below if you prefer to use an image logo -->
+                <!-- <a href="index.html"><img src="../../static/admissionsystem/img/logo.png" alt="" class="img-fluid"></a>-->
+            </div>
+
+            <nav id="navbar" class="navbar ">
+                <ul>
+                    <li><a class="active " href="{% url 'homeview' %}">Main</a></li>
+
+
+
+                     <li class="dropdown"><a href="/"><span>Skill Student</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="{% url 'addskillstudentview' %}">Add Student</a></li>
+                            <li><a href="{% url 'modify_skill_dashboard' %}">Modify Student</a></li>
+                            <!-- <li><a href="{% url 'modify_skill_dashboard' %}">Delete Student</a></li> -->
+                        </ul>
+                    </li>
+
+                    <li class="dropdown"><a href="/"><span>Skill Dashboard</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="{% url 'search_skill_dashboard' %}">Search Student</a></li>
+                        </ul>
+                    </li>
+
+                   <!--   <li class="dropdown"><a href="#"><span>Conventional Student</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href=""">Add Student</a></li>
+                            <li><a href="/">Modify Student</a></li>
+                            <li><a href="/">Delete Student</a></li>
+                        </ul>
+                    </li>
+                     
+                    <li class="dropdown"><a href="/"><span>Conventional Dashboard</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="#">Search Student</a></li>
+                        </ul>
+                    </li> -->
+
+
+                    <li class="dropdown"><a href="/"><span>Add Info</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="{% url 'jobpositionview' %}">Add Job Name</a></li>
+                            <li><a href="{% url 'job_position_dashboard' %}">Modify Job Name</a></li>
+                            <li><a href="{% url 'shortcoursenameview' %}">Add Short Course Name</a></li>
+                            <li><a href="{% url 'shortcourse_name_dashboard' %}">Modify Short Course Name</a></li>
+                        </ul>
+                    </li>
+ 
+                     <li class="dropdown"><a href="#"><span>Welcome {{ user.get_username }} !</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="{% url 'user_profile' %}">{{ user.get_username }}'s Profile</a></li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                            <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+            <!-- .navbar -->
+
+        </div>
+    </header>
+    <!-- End Header -->
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+
+    <div class="container">
+        <ol class="breadcrumb breadcrumb-arrow">
+            {% for url in backTack%} {%if url.last%}
+            <li class="active"><span>{{url}}d</span></li>
+            {%endif%}
+
+            <li><a href="{{url}}">{{url}}</a></li>
+
+            {%endfor%}
+        </ol>
+    </div>
+    {% include 'messages.html' %} {% block content %} {% endblock %}
+    
+
+
+
+
+
+    <!-- ======= Footer ======= -->
+
+
+    <footer id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+
+
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h4>Technical Assistance</h4>
+                        <p> 
+                            For technical assistance 
+                            please contat at: 
+                            am0776137@gmail.com
+                            and mention the issue in the subject.
+                        </p>
+                    </div>
+
+
+                    <div class="col-lg-3 col-md-6 footer-contact">
+                        <h4>WISE Admission System</h4>
+                        <p> 
+                            A comprehensive admission system
+                            that allows for handling of all admission
+                            related activities in a holistic manner. 
+                        </p>
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Add Conventional Student</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Search Conventional Student</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="#">Modify Conventional Student</a></li>
+                        </ul>
+                    </div>
+
+
+                    <div class="col-lg-3 col-md-6 footer-links">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{% url 'addskillstudentview' %}">Add Skill Student</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{% url 'search_skill_dashboard' %}">Search Skill Student</a></li>
+                            <li><i class="bx bx-chevron-right"></i> <a href="{% url 'modify_skill_dashboard' %}">Modify Skill Student</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                Copyright <strong>&copy; <span>WISE COLLEGE</span></strong> 
+                <br>
+                48-Main Gulberg, Lahore 
+                <br>
+                All Rights Reserved
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="../../static/admissionsystem/vendor/aos/aos.js"></script>
+    <script src="../../static/admissionsystem/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../../static/admissionsystem/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="../../static/admissionsystem/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="../../static/admissionsystem/vendor/php-email-form/validate.js"></script>
+    <script src="../../static/admissionsystem/vendor/purecounter/purecounter.js"></script>
+    <script src="../../static/admissionsystem/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="../../static/admissionsystem/vendor/waypoints/noframework.waypoints.js"></script>
+
+
+    <!--Chart js-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+    <!-- Template Main JS File -->
+    <script src="../../static/admissionsystem/js/main.js"></script>
+    {% block script %}{% endblock %}
+</body>
+
+</html>

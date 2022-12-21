@@ -1,0 +1,574 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Student Profile Page</title>
+
+    <meta name="author" content="Codeconvey" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900&display=swap" rel="stylesheet"><link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css'>
+    <link href="../../static/admissionsystem/css/skill_detail_view.css" rel="stylesheet">
+
+ 
+</head>
+<body>
+		
+<div class="ScriptTop">
+    <div class="rt-container">
+        <div class="col-rt-4" id="float-right">
+ 
+            <!-- Ad Here -->
+            
+        </div>
+       
+    </div>
+</div>
+
+<header class="ScriptHeader">
+    <div class="rt-container">
+    	<div class="col-rt-12">
+        	<div class="rt-heading">
+             
+            </div>
+        </div>
+    </div>
+</header>
+
+<section>
+
+  
+    <div class="rt-container">
+          <div class="col-rt-12">
+              <div class="Scriptcontent">
+              
+<!-- Student Profile -->
+<div class="student-profile py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent text-center">
+                    {% if skill_std_form.photograph %}
+            <img class="profile_img" src="{{skill_std_form.photograph.url}}" alt="student dp">
+                    {% endif %}
+
+            <h3>{{skill_std_form.name}}</h3>
+          </div>
+          <div class="card-body" >
+            <p class="mb-0"><strong class="pr-1">Student id:</strong>{{skill_std_form.id}}</p>
+            <!-- <p class="mb-0"><strong class="pr-1">Class:</strong>4</p> -->
+            <p class="mb-0"><strong class="pr-1">Form No:</strong>{{skill_std_form.form_no}}</p>
+            <p class="mb-0"><strong class="pr-1">Cnic No:</strong>{{skill_std_form.cnic_or_B_form_No}}</p>
+            <br>
+            <input value="Update" type="button" style="width: 50%;" onclick="location.href='{% url 'update_skill_detail_view' skill_std_form.id %}'" class="btn btn-lg btn-outline-success mx-auto d-block" >
+
+
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Summary</h3>
+          </div>
+          <div class="card-body pt-0">
+            <table class="table table-bordered">
+
+              <tr>
+                <th width="30%">Date Applied	</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.date_applied}}</td>
+              </tr>
+              <tr>
+                <th width="30%">Program of Interest </th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.program_of_interest}}</td>
+              </tr>
+              <tr>
+                <th width="30%">Shift</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.shift}}</td>
+              </tr>
+              <tr>
+                <th width="30%">Admission Status</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.admission_status}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Information Source</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.information_source}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Form Created By</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.created_by}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Form Updated By</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.updated_by}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+
+
+          <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Personal Information</h3>
+         
+          </div>
+
+          <div class="card-body pt-0">
+            <table class="table table-bordered">
+              <tr>
+                <th width="30%">Name</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.name}}</td>
+              </tr>
+              
+              <tr>
+                <th width="30%">Form No</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.form_no}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Shift</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.shift}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Father Name</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.father_Name}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Gender</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.gender}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Cnic or B Form No</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.cnic_or_B_form_No}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Date of Birth</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.date_of_birth}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Program of Interest</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.program_of_interest}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Information Source</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.information_source}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Admission Status</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.admission_status}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Date Applied</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.date_applied}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Pre Qualification</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.pre_qualification}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Email</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.email}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Residencial Status</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.residencial_status}}</td>
+              </tr>
+            
+              <tr>
+                <th width="30%">Address</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.address}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Area</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.area}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Domicile</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.domicile}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Transportation</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.transportation}}</td>
+              </tr>              
+
+              <tr>
+                <th width="30%">Computer at Home</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.computer_at_Home}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Laptop at Home</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.laptop}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Form Created By</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.created_by}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Form Updated By</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.updated_by}}</td>
+              </tr>
+
+            </table>
+
+          </div>
+        </div>
+        <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Educational Information</h3>
+          </div>
+          <div class="card-body pt-0">
+                    <table class="table table-bordered">
+              <tr>
+                <th width="30%">Pre Qualification</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.pre_qualification}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">Program</th>
+                <td width="2%">:</td>
+                <td>{{current_study_form.program}}</td>
+              </tr>
+              <tr>
+                <th width="30%">Institute</th>
+                <td width="2%">:</td>
+                <td>{{current_study_form.institute}}</td>
+              </tr>
+              <tr>
+                <th width="30%">Semester</th>
+                <td width="2%">:</td>
+                <td>{{current_study_form.semester}}</td>
+              </tr>
+              <tr>
+                <th width="30%">Start Timings</th>
+                <td width="2%">:</td>
+                <td>{{current_study_form.start_timings}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">End Timings</th>
+                <td width="2%">:</td>
+                <td>{{current_study_form.end_timings}}</td>
+              </tr>
+
+                <tr>
+                <th width="30%">Institute Address</th>
+                <td width="2%">:</td>
+                <td>{{current_study_form.institute_Address}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">CGPA</th>
+                <td width="2%">:</td>
+                <td>{{current_study_form.CGPA}}</td>
+              </tr>
+
+            </table>
+          </div>
+        </div>
+
+          <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Short Course Information</h3>
+          </div>
+          <div class="card-body pt-0">
+                    <table class="table table-bordered">
+
+                      <table class="table table-bordered">
+
+                        {% for form in short_course_taken_form %}
+                        <tr>
+                          <th width="30%"><div class="col-md-12 text-center">Short Course:  {{ forloop.counter }}</div></th>
+                          <td width="2%">:</td>
+
+                          <tr>
+                            <th width="30%">Course Name</th>
+                            <td width="2%">:</td>
+                            <td>{{ form.course_name }}</td>
+                          </tr>
+
+                          <tr>
+                            <th width="30%">Course Type</th>
+                            <td width="2%">:</td>
+                            <td>{{ form.course_type }}</td>
+                          </tr>
+  
+                          <tr>
+                            <th width="30%">Institute Name</th>
+                            <td width="2%">:</td>
+                            <td>{{ form.institute_name }}</td>
+                          </tr>
+                          
+                          <tr>
+                            <th width="30%">Start Date</th>
+                            <td width="2%">:</td>
+                            <td>{{ form.start_date }}</td>
+                          </tr>
+  
+                          <tr>
+                            <th width="30%">End Date</th>
+                            <td width="2%">:</td>
+                            <td>{{ form.end_date }}</td>
+                          </tr>
+                         
+                        </tr>
+   
+                        {% endfor %}
+  
+              </table>
+              
+            </table>
+          </div>
+        </div>    
+
+        <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Job Information</h3>
+          </div>
+
+
+
+          <div class="card-body pt-0">
+                    <table class="table table-bordered">
+                      {% for job in job_form %}
+                      <tr>
+                        <th width="30%"><div class=" text-center">{{ forloop.counter }}</div></th>
+                        <td width="2%">:</td>
+                 
+                        <tr>  
+                          <th width="30%">Position</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.position }}</td>
+                        </tr>
+        
+                        <tr>
+                          <th width="30%">Company</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.company }}</td>
+                        </tr>
+        
+                        <tr>
+                          <th width="30%">Start Timings</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.start_timings }}</td>
+                        </tr>
+        
+                        <tr>
+                          <th width="30%">End Timings</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.end_timings }}</td>
+                        </tr>
+        
+                        <tr>
+                          <th width="30%">Salary</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.salary }}</td>
+                        </tr>
+        
+                        <tr>
+                          <th width="30%">Company Address</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.company_address }}</td>
+                        </tr>
+                        <tr>
+                          <th width="30%">Created By</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.created_by }}</td>
+                        </tr>     
+                        <tr>
+                          <th width="30%">Updated By</th>
+                          <td width="2%">:</td>
+                          <td>{{ job.updated_by }}</td>
+                        </tr>  
+                      </tr>
+        
+                      {% endfor %}
+        
+           
+
+            </table>
+          </div>
+        </div>
+        <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Contact Information</h3>
+          </div>
+
+
+
+          <div class="card-body pt-0">
+                    <table class="table table-bordered">
+              <tr>
+                <th width="30%">Personal Phone No 1</th>
+                <td width="2%">:</td>
+                <td>{{ phone_no_form.Personal_Phone_no_1 }}</td>
+              </tr>
+              <tr>
+                <th width="30%">Personal Phone No 2</th>
+                <td width="2%">:</td>
+                <td>{{ phone_no_form.Personal_Phone_no_2 }}</td>
+              </tr>
+              <tr>
+                <th width="30%">Father Phone No</th>
+                <td width="2%">:</td>
+                <td>{{ phone_no_form.Father_Phone_no }}</td>
+              </tr>
+                            <tr>
+                <th width="30%">Mother Phone No</th>
+                <td width="2%">:</td>
+                <td>{{ phone_no_form.Mother_Phone_no }}</td>
+              </tr>
+                            <tr>
+                <th width="30%">Emergency Phone No</th>
+                <td width="2%">:</td>
+                <td>{{ phone_no_form.Emergency_Phone_no }}</td>
+              </tr>
+            
+        
+            </table>
+          </div>
+        </div>
+      
+              <div style="height: 26px"></div>
+        <div class="card shadow-sm">
+          <div class="card-header bg-transparent border-0">
+            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Query  Information</h3>
+          </div>
+
+
+
+          <div class="card-body pt-0">
+            <table class="table table-bordered">
+              {% for query in query_form %}
+              <tr>
+
+                <th width="30%">Query: {{ forloop.counter }}</th>
+                <td width="2%">:</td>
+                <td>{{ query.query }}</td>
+              </tr>
+              <tr>
+                <th width="30%">Reply</th>
+                <td width="2%">:</td>
+                <td>{{ query.reply }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+
+        </div>
+
+
+
+      </div>
+
+
+      </div>
+
+      </div>
+  
+
+    </div>
+  
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- partial -->
+           
+    		</div>
+		</div>
+    </div>
+</section>
+     
+
+
+    <!-- Analytics -->
+
+	</body>
+</html>
+
+{% endblock %}

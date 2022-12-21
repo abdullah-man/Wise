@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+ 
+<div
+        style="
+        text-align: center;
+        width:42%;
+        margin:0px auto;
+        margin-bottom: 3%;
+        padding: 5%;
+        border-style: solid;
+        border-radius: 8%;
+        box-shadow: rgba(0,0,0,0.8) 0 0 10px">
+
+        <h1 >Add Short Course Name</h1>
+        <p>You can add Short Course Names here</p>
+           <div>
+                <form action="{% url 'shortcoursenameview' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <table class="table">
+                        <br>
+                        {{ shortcoursename_form }}
+                    
+                    </table>
+                    <br>
+                    <input value="Add" type="submit" style="width: 50%;" class="btn btn-outline-primary mx-auto d-block">                            
+
+                </form>
+               
+            </div>
+</div>
+
+<script type="text/javascript">
+        document.getElementById('id_created_by').value = '{{ user.get_username }}';
+        document.getElementById('id_created_by').readOnly = true;
+        document.getElementById('id_updated_by').readOnly = true;
+</script>
+{% endblock content %}

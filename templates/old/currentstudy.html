@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block content %}
+<main id="main">
+<!DOCTYPE html>    No USE.............
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<body>
+<br>  
+
+<div
+style="
+text-align: center;
+width:40%;
+margin:0px auto;
+margin-bottom: 3%;
+padding: 2%;
+border-style: solid;
+border-radius: 8%;
+box-shadow: rgba(0,0,0,0.8) 0 0 10px">
+
+        <h1 >Add Current Study</h1>
+        <p>You can add current study here</p>
+
+        <div>
+            <form action="{% url 'currentstudyview' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                  <table class="table">
+
+                              {{currentstudy_form}}
+                                {{ form.media }}
+                
+                  </table>
+
+                  <button style="width: 50%;" type="submit" class="btn btn-primary">Next</button>
+
+            </form>
+
+        </div> 
+
+</div>
+<script type="text/javascript">
+    document.getElementById('id_start_timings').type = 'time';
+    document.getElementById('id_end_timings').type = 'time';
+    // setting 
+    document.getElementById('id_student').value = '{{skillstudentobjects}}';
+    
+    document.getElementById('id_created_by').value = '{{ user.get_username }}';
+    document.getElementById('id_updated_by').value = '{{ user.get_username }}';
+    document.getElementById('id_created_by').readOnly = true;
+    document.getElementById('id_updated_by').readOnly = true;
+
+</script>
+
+</main>
+<!-- End #main -->
+{% endblock content %}
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<!-- check which one is best -->
+<!-- <img src='../../static/admissionsystem/img/home/1.png' > -->
+<!-- <img src="{% static "admissionsystem/img/home/1.png" %}" alt="Not found"/> -->
+
+<main id="main">
+    <hr>
+    <div style="margin: 20px">
+          <table class="table table-primary table-striped" >
+                <style>
+                         td, th {
+                            text-align: left;
+                         }
+                </style>
+    
+                      <tr>
+                          <th>Conventional Students</th>
+                          <td>{{ conventionalstudentcount }}</td>
+                      </tr>
+                      
+                      <tr>
+                            <th>Skill Students</th>
+                            <td>{{ skillstudentcount }}</td>
+                      </tr>
+          </table>
+    
+    </div>
+    
+    <hr size=3>
+         <!-- ======= Services Section ======= -->
+        <section class="services">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up">
+                <div class="icon-box icon-box-pink">
+                  <div><img src="{% static "admissionsystem/img/home/skill_student.png" %}" width="150" height="150"></div>
+                  <h4 class="title"><a href="">Skill Students</a></h4>
+                  <p class="description">Add and Modify</p>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up">
+                <div class="icon-box icon-box-pink">
+                  <div><img src="{% static "admissionsystem/img/home/skill_dashboard.png" %}" width="150" height="150"></div>
+                  <h4 class="title"><a href="">Skill Dashboard</a></h4>
+                  <p class="description">Search, View, Query</p>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up">
+                <div class="icon-box icon-box-pink">
+                  <div><img src="{% static "admissionsystem/img/home/college_student.png" %}" width="150" height="150"></div>
+                  <h4 class="title"><a href="">College Students</a></h4>
+                  <p class="description">Add and Modify</p>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-lg-3 d-flex align-items-stretch" data-aos="fade-up">
+                <div class="icon-box icon-box-pink">
+                  <div><img src="{% static "admissionsystem/img/home/college_dashboard.png" %}" width="150" height="150"></div>
+                  <h4 class="title"><a href="">College Dashboard</a></h4>
+                  <p class="description">Search, View, Query</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section><!-- End Services Section -->
+</main><!-- End #main -->
+{% endblock content %}

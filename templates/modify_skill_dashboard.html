@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+{% block css %}
+<style>
+	h1, h2, h3, h4, h5, h6 {
+		text-align: center;
+		color: #094a89;
+		font-family: timesnewroman;
+	}
+	table{
+		border-collapse: collapse;
+		width: 100%;
+		text-align: center;
+		font-size: 20px;
+		font-family: timesnewroman;
+	}
+	th{
+		background-color: #094a89;
+		color: white;
+	}
+	th, td{
+		border: 2px solid #ddd;
+	}
+
+</style>
+{% endblock css %}
+
+<div class="col-md-15">
+ 
+		<h1>Modify Skill Students</h1>
+		<hr>
+		<div class="text-center col-md-15">
+			<form method="POST" action="" enctype="multipart">
+				{% csrf_token %}
+				{{ student_custom_search_form }}
+				<input value="Customized Search" type="submit" class="btn btn-sm btn-outline-success">                            
+			</form>
+		</div>
+		<hr>
+		<div class="card card-body">
+
+				<table id="search-table" class="users-table mt-4">
+	        
+	        <div style="width: 50%">
+	        	<label style="" for="search-input">Search here</label>
+	        	<input class="form-control" id="search-input" type="text" placeholder="Search from table..">
+	        </div>
+					<tr>
+						<th>Sr.</th>
+						<th>ID</th>
+						<th>Name</th>
+						<th>Cnic</th>
+						<th>Program</th>
+						<th>Shift</th>
+						<th>Status</th>
+						<th>Date Applied</th>
+						<th>Phone</th>
+						<th>Update</th>
+					</tr>
+
+					{% for student in students %}
+							<tr>
+								<td>{{ forloop.counter }}</td>
+								{% for student_data in student %}
+										<td>{{ student_data }}</td>
+								{% endfor %}
+								
+								<!-- getting the id of the student list of list -->
+								<td><input value="Update" type="button"  onclick="location.href='{% url 'update_skill_detail_view' student.0 %}'" class="btn btn-sm btn-outline-primary"></td>
+							</tr>
+					
+					{% endfor %}
+
+				</table>
+				<br>
+
+		</div>
+	</div>
+</div>
+
+
+<!-- Script for Search from Table -->
+<script>
+$(document).ready(function(){
+  $("#search-input").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#search-table tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+
+
+<!-- delete confirmation/ -->
+<script >
+var deleteLinks = document.querySelectorAll('.delete');
+for (var i = 0; i < deleteLinks.length; i++) {
+  deleteLinks[i].addEventListener('click', function(event) {
+      event.preventDefault();
+
+      var choice = confirm(this.getAttribute('data-confirm'));
+
+      if (choice) {
+        window.location.href = this.getAttribute('href');
+
+      }
+  });
+}
+
+</script>
+
+<!-- <script >
+	
+	swal({
+  title: "Are you sure?",
+  text: "Once deleted, this operation can't be reverted!",
+  icon: "warning",
+  buttons: true,
+  dangerMode: true,
+})
+.then((willDelete) => {
+  if (willDelete) {
+    swal("Done! Your file has been deleted!", {
+      icon: "success",
+    });
+  } else {
+    swal("Delete operation is cancelled!");
+  }
+});
+</script> -->
+
+{% endblock %}

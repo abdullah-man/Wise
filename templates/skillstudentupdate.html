@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<br>
+<div
+    style="
+    text-align: left;
+    width:50%;
+    margin:0px auto;
+    margin-bottom: 3%;
+    padding: 2%;
+    border-style: solid;
+    border-radius: 8%;
+    box-shadow: rgba(0,0,0,0.8) 0 0 10px">
+    
+    <h2 style="text-align: center; background: whitesmoke;">Update Personal Information</h2>
+    <br>
+        <div>
+                <form method="POST" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <table class="table">
+                                {{form}}
+                          </table>
+                         <input value="Update" type="submit" style="width: 50%;" class="btn btn-outline-primary mx-auto d-block">                            
+
+                </form>
+        </div>
+</div>
+
+<script type="text/javascript">
+    document.getElementById('id_date_of_birth').type = 'date';
+    document.getElementById('id_date_applied').type = 'date';
+    document.getElementById('id_created_by').readOnly = true;
+    document.getElementById('id_updated_by').readOnly = true;
+    document.getElementById('id_updated_by').value = '{{ user.get_username }}';
+</script>
+
+{% endblock content %}

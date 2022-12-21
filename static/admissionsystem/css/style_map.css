@@ -1,0 +1,226 @@
+* {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    padding: 0;
+    margin: 0;
+}
+body {
+    font-family: 'Nunito Sans', sans-serif;
+}
+main {
+    display: flex;
+}
+.store-list {
+    width: 15%;
+    height: 100vh;
+    overflow: auto;
+    background: whitesmoke;
+}
+#map {
+    height: 100vh;
+    width: 70%;
+}
+.store-list .heading {
+    background: #1e4356;
+    color: #fff;
+}
+.store-list .heading h2 {
+    padding: 1rem;
+}
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-left: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: #1e4356;
+    border-radius: 0;
+}
+.store-list ul.list {
+    padding: 0 1rem;
+    list-style-type: none;
+}
+.store-list .shop-item {
+    margin: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem;
+}
+.store-list li:last-child .shop-item {
+    border: none;
+}
+.store-list .shop-item a {
+    text-decoration: none;
+    font-size: 20px;
+    color: #1e4356;
+    font-weight: 700;
+}
+.store-list .shop-item p {
+    font-size: 14px;
+    color: #404040;
+}
+.leaflet-popup-content-wrapper {
+    padding: 0;
+    overflow: hidden;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content {
+    margin: 0;
+}
+.leaflet-popup-content-wrapper h4 {
+    padding: 16px;
+    background: #ff6804;
+    color: #fff;
+    font-size: 16px;
+}
+.leaflet-popup-content-wrapper p {
+    padding: 0 16px;
+    font-size: 14px;
+    margin-bottom: 14px;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content .phone-number {
+    padding: 16px;
+    padding-top: 0;
+}
+.leaflet-popup-content-wrapper .leaflet-popup-content .phone-number a {
+    color: #ff6808;
+    font-size: 14px;
+}
+
+/* Here CSS goes for marker */
+.marker-list {
+    width: 15%;
+    height: 100vh;
+    overflow: auto;
+    background: whitesmoke;
+}
+.marker-list .heading {
+    background: #1e4356;
+    color: #fff;
+}
+.marker-list .heading h2 {
+    padding: 1rem;
+}
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    border-left: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+::-webkit-scrollbar-thumb {
+    background: #1e4356;
+    border-radius: 0;
+}
+.marker-list ul.list {
+    padding: 0 1rem;
+    list-style-type: none;
+}
+.marker-list .marker-item {
+    margin: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem;
+}
+.marker-list li:last-child .marker-item {
+    border: none;
+}
+.marker-list .marker-item a {
+    text-decoration: none;
+    font-size: 20px;
+    color: #1e4356;
+    font-weight: 700;
+}
+.marker-list .marker-item p {
+    font-size: 14px;
+    color: #404040;
+}
+
+/* generate pdf button */
+.generate-pdf {
+    width: auto;
+    height: auto;
+    overflow: auto;
+    background: whitesmoke;
+}
+
+/* marker filters */
+/*  ------------------------------------------------------------------------------- */
+ /* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+  
+  /* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+  /* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+  
+input:checked + .slider {
+    background-color: #1e4356;
+}
+  
+input:focus + .slider {
+    box-shadow: 0 0 1px #1e4356;
+}
+  
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+  
+/* Rounded sliders */
+.slider.round {
+    border-radius: 24px;
+}
+  
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* Button CSS */
+.button {
+    /* background-color: #4CAF50; Green */
+    background-color: #1e4356;
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+.button:active {
+    background-color: orange;
+    box-shadow: 0 1px gray;
+    transform: translateY(1px);
+}

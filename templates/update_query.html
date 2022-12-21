@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+<br>
+<div
+style="
+    text-align: center;
+    width:54%;
+    margin:0px auto;
+    margin-bottom: 3%;
+    padding: 2%;
+    border-style: solid;
+    border-radius: 8%;
+    box-shadow: rgba(0,0,0,0.8) 0 0 10px">
+
+        <h1 >Update Query</h1>
+        <div>
+                <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <table class="table">              
+                                  {{form}}
+                        </table>
+
+                        <input value="Update" type="submit" style="width: 50%;" class="btn btn-outline-primary mx-auto d-block">                            
+
+                </form>
+
+        </div>
+
+</div>
+
+<!-- to display current student id in student selection menu in template -->
+
+<script type="text/javascript">
+        document.getElementById('id_student').value = '{{contacted_object}}';
+        document.getElementById('id_created_by').readOnly = true;
+        document.getElementById('id_updated_by').value = '{{ user.get_username }}';
+        document.getElementById('id_updated_by').readOnly = true;
+</script>
+
+ {% endblock content %}
