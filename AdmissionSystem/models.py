@@ -184,7 +184,7 @@ class Contacted(models.Model):
 
 # model to add current study for student
 class CurrentStudy(models.Model):
-	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE, blank=True)
+	student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE, blank=True)
 	program = models.CharField(max_length=100, null=True, blank=True)
 	institute = models.CharField(max_length=100, null=True, blank=True)
 	semester = models.CharField(max_length=100, null=True, blank=True)
@@ -258,7 +258,7 @@ class Job(models.Model):
 
 # model to add phone numbers for student
 class PhoneNo(models.Model):
-	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE, blank=True)
+	student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE, blank=True)
 	Personal_Phone_no_1 = models.CharField(max_length=100, null=True, blank=True)	
 	Personal_Phone_no_2 = models.CharField(max_length=100, null=True, blank=True)	
 	Father_Phone_no = models.CharField(max_length=100, null=True, blank=True)	
