@@ -82,37 +82,89 @@ def addskillstudentview(request):
 	"""
 
 	if request.method == "POST":
-		skill_student_form = SkillStudentForm(request.POST, request.FILES)
-		if skill_student_form.is_valid():
-			skill_student_form.save()
+		print("0")
+		add_skill_student_form = AddSkillStudentForm(request.POST)
+		print("1")
+		
+		if add_skill_student_form.is_valid():
+			print("2")
+			# getting the filled data 
+			name = add_skill_student_form.cleaned_data['name']
+			personal_phone_no_1 = add_skill_student_form.cleaned_data['personal_phone_no_1']
+			personal_phone_no_2 = add_skill_student_form.cleaned_data['personal_phone_no_2']
+			area = add_skill_student_form.cleaned_data['area']
+			laptop = add_skill_student_form.cleaned_data['laptop']
+			availability_from = add_skill_student_form.cleaned_data['availability_from']
+			availabitity_to = add_skill_student_form.cleaned_data['availabitity_to']
+			date_applied = add_skill_student_form.cleaned_data['date_applied']
+			pre_qualification = add_skill_student_form.cleaned_data['pre_qualification']
+			currently_studying = add_skill_student_form.cleaned_data['currently_studying']
+			admission_status = add_skill_student_form.cleaned_data['admission_status']			
+			
+			data_list = [name, personal_phone_no_1, personal_phone_no_2, area, laptop, availability_from, availabitity_to, date_applied, pre_qualification, currently_studying, admission_status]
+			
+			print("Data List: ", data_list)
 
-			# creating other table objects for this student. These objects are null for now.
-			# In order to fill these details, the user is to be redirected to update view
-			# for this student.
-
-			students_of_this_user = SkillStudent.objects.filter(created_by = request.user).order_by('id')
+			# --- 		Writing data to respective Models 		---
+			# skillstudent Model object creation
+			SkillStudent.objects.create(name=name, area=area, pre_qualification=pre_qualification, 
+			admission_status=admission_status, created_by=request.user)
+			
+			# getting id of recently registered student
+			students_of_this_user = SkillStudent.objects.filter(created_by=request.user).order_by('id')
 			newly_added_student = students_of_this_user.last() # gettting the newly created user
 			newly_added_student_id = newly_added_student.id # getting its id
 
-			# print("------ id : ",newly_added_student.id)
-			# Adding Empty Object for this student in the CurrentStudy Table
-			CurrentStudy.objects.create(student_id = newly_added_student_id, created_by = request.user)
-			# Adding Empty Object for this student in the ShortCoursesTaken Table
-			ShortCoursesTaken.objects.create(student_id = newly_added_student_id, created_by = request.user)
-			# Adding Empty Object for this student in the PhoneNo Table
-			PhoneNo.objects.create(student_id = newly_added_student_id, created_by = request.user)
-			# Adding Empty Object for this student in the Job Table
-			Job.objects.create(student_id = newly_added_student_id, created_by = request.user)
+			print("------ id : ",newly_added_student.id)
 
+			# PhoneNo Model object creation
+			CurrentStudy.objects.create(student_id=newly_added_student_id, program=currently_studying, created_by=request.user)
 
+			messages.success(request, ('Skill Student has successfully been added!'))
+			return redirect('addskillstudentview')
 
-			messages.success(request, ('SkillStudent was successfully added!'))
-			return redirect('update_skill_detail_view', newly_added_student_id)
 		else:
-			messages.error(request, 'Error saving SkillStudent Please Try again')		
-			return redirect('homeview')
-	skill_student_form = SkillStudentForm()
-	return render(request=request, template_name="add_skillstudent.html", context={'skill_student_form':skill_student_form})
+			messages.error(request, ('Form Not Valid!'))
+			print('Form Not Valid!')
+			return redirect('addskillstudentview')
+	
+	new_form = AddSkillStudentForm() # testing new form
+	return render(request=request, template_name="add_skillstudent_new.html", context={'new_form':new_form})
+
+
+	# if request.method == "POST":
+	# 	skill_student_form = SkillStudentForm(request.POST, request.FILES)
+	# 	if skill_student_form.is_valid():
+	# 		skill_student_form.save()
+
+	# 		# creating other table objects for this student. These objects are null for now.
+	# 		# In order to fill these details, the user is to be redirected to update view
+	# 		# for this student.
+
+	# 		students_of_this_user = SkillStudent.objects.filter(created_by = request.user).order_by('id')
+	# 		newly_added_student = students_of_this_user.last() # gettting the newly created user
+	# 		newly_added_student_id = newly_added_student.id # getting its id
+
+	# 		# print("------ id : ",newly_added_student.id)
+	# 		# Adding Empty Object for this student in the CurrentStudy Table
+	# 		CurrentStudy.objects.create(student_id = newly_added_student_id, created_by = request.user)
+	# 		# Adding Empty Object for this student in the ShortCoursesTaken Table
+	# 		ShortCoursesTaken.objects.create(student_id = newly_added_student_id, created_by = request.user)
+	# 		# Adding Empty Object for this student in the PhoneNo Table
+	# 		PhoneNo.objects.create(student_id = newly_added_student_id, created_by = request.user)
+	# 		# Adding Empty Object for this student in the Job Table
+	# 		Job.objects.create(student_id = newly_added_student_id, created_by = request.user)
+
+
+
+	# 		messages.success(request, ('SkillStudent was successfully added!'))
+	# 		return redirect('update_skill_detail_view', newly_added_student_id)
+	# 	else:
+	# 		messages.error(request, 'Error saving SkillStudent Please Try again')		
+	# 		return redirect('homeview')
+
+	# skill_student_form = SkillStudentForm()
+	# return render(request=request, template_name="add_skillstudent.html", context={'skill_student_form':skill_student_form})
 
 
 @login_required(login_url='loginpageview')

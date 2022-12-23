@@ -1,6 +1,49 @@
 from django import forms
 from .models import *
  
+class AddSkillStudentForm(forms.Form):
+
+    pre_qualification_choice = [
+    ('',''),
+    ('Matric','Matric'),
+    ('O-Levels','O-Levels'),
+    ('A-Levels','A-Levels'),
+    ('Inter','Inter'),
+    ('ADP','ADP'),
+    ('BS','BS'),
+    ('BE','BE'),
+    ('Masters','Masters'),
+    ('M.Phil','M.Phil'),
+    ('PhD','PhD'),
+    ]
+
+    admissionstatus_choice = [
+    ('',''),
+    ('Contacted Virtually','Contacted Virtually'),
+    ('Reception Appearance','Reception Appearance'),
+    ('Internal Interview','Internal Interview'),
+    ('External Interview','External Interview'),
+    ('Admitted','Admitted'),
+    ('Rejected','Rejected'),
+    ('Awaiting','Awaiting'),
+    ('Drop out','Drop out'),
+    ('Pass out','Pass out'),
+    ]
+
+    name = forms.CharField(label='Name', required=True)
+    personal_phone_no_1 = forms.CharField(label='Phone1', required=True)
+    personal_phone_no_2 = forms.CharField(label='Phone2', required=False)
+    area = forms.CharField(label='Area', required=True)
+    laptop = forms.CharField(label='Laptop', required=True)
+    availability_from = forms.TimeField(label='Availability From', required=True)
+    availabitity_to = forms.TimeField(label='Availablility To', required=True)
+    date_applied = forms.DateField(label='Date Applied', required=True)
+    pre_qualification = forms.CharField(label='PreQualification', widget=forms.Select(choices=pre_qualification_choice), required=True)
+    currently_studying = forms.CharField(label='Current Degree Program')
+    admission_status = forms.CharField(label='Admission Status', widget=forms.Select(choices=admissionstatus_choice), required=True)
+
+
+
 class SkillStudentForm(forms.ModelForm):
     class Meta:
         model = SkillStudent

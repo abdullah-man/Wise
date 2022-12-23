@@ -5405,7 +5405,7 @@ textarea.form-control {
     color: #d6d6d6;
 }
 
-.form-txt-default::-webkit-input-placeholder {
+.form-txt-default::-webkit--placeholder {
     color: #d6d6d6;
 }
 
