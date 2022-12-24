@@ -20,19 +20,49 @@
         
         <h1 style="text-align: center;">Register Skill Student</h1>
         <p style="text-align: center;">Add a skill student here</p>
-        <p>Experimental Form</p>
         <div>
             <form action="{% url 'addskillstudentview' %}" method="POST" enctype="multipart">
                 {% csrf_token %}
-                <!-- {{ new_form.as_p }} -->
                 <table class="table">
-                    <tr><th>Name</th><td><input type="text" name="name" required></td></tr>
-                    <tr><th>Phone 1</th><td><input type="text" name="personal_phone_no_1" required></td></tr>
-                    <tr><th>Phone 2</th><td><input type="text" name="personal_phone_no_2"></td></tr>
+                    <tr><th>Name</th>
+                        <td>
+                            <input type="text" name="name" required>
+                            <div><small>complete name</small></div>
+                        </td>
+                    </tr>
+                    <tr><th>Phone 1</th>
+                        <td>
+                            <input type="tel" name="personal_phone_no_1" pattern="[0-9]{4}-[0-9]{7}" required>
+                            <div><small>format: xxxx-xxxxxxx</small></div>
+                        </td>
+                    </tr>
+                    <tr><th>Phone 2</th>
+                        <td>
+                            <input type="tel" name="personal_phone_no_2"  pattern="[0-9]{4}-[0-9]{7}" >
+                            <div><small>format: xxxx-xxxxxxx</small></div>
+                        </td>
+                    </tr>
                     <tr><th>Area</th><td><input type="text" name="area" required></td></tr>
-                    <tr><th>Laptop</th><td><input type="text" name="laptop" required></td></tr>
-                    <tr><th>Available From</th><td><input type="time" name="availability_from" required></td></tr>
-                    <tr><th>Available To</th><td><input type="time" name="availabitity_to" required></td></tr>
+                    <tr><th>Laptop</th>
+                        <td>
+                            <label for="1">Yes</label>
+                            <input type="radio" id="1" name="laptop" value="True" required>
+                            <label for="2">No</label>
+                            <input type="radio" id="2" name="laptop" value="False" required>
+                        </td>
+                    </tr>
+                    <tr><th>Available From</th>
+                        <td>
+                            <input type="time" name="availability_from" required>
+                            <div><small>student availability time details</small></div>
+                        </td>
+                    </tr>
+                    <tr><th>Available To</th>
+                        <td>
+                            <input type="time" name="availabitity_to" required>
+                            <div><small>student availability time details</small></div>
+                        </td>
+                    </tr>
                     <tr><th>Date Applied</th><td><input type="date" name="date_applied" required></td></tr>
                     <!-- <tr><th>Pre-Qualification</th><td><input type="text" name="pre_qualification" required></td></tr> -->
                     <tr>
@@ -49,10 +79,16 @@
                                 <option value="Masters">Masters</option>
                                 <option value="M.Phil">M.Phil</option>
                                 <option value="Ph.D">Ph.D</option>
+                            </select>
+                            <div><small>last degree or certificate</small></div>
                         </td>
                     </tr>
-                    <tr><th>Currently Studying</th><td><input type="text" name="currently_studying" required></td></tr>
-                    <!-- <tr><th>Admission Status</th><td><input type="text" name="admission_status" required></td></tr> -->
+                    <tr><th>Currently Studying</th>
+                        <td>
+                            <input type="text" name="currently_studying" required>
+                            <div><small>currently pursuing degree program</small></div>
+                        </td>
+                    </tr>
                     <tr>
                         <th>Admission Status</th>
                         <td>

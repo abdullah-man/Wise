@@ -106,27 +106,32 @@ def addskillstudentview(request):
 			print("Data List: ", data_list)
 
 			# --- 		Writing data to respective Models 		---
+			# ---	
+			# ---
+
+
 			# skillstudent Model object creation
-			SkillStudent.objects.create(name=name, area=area, pre_qualification=pre_qualification, 
-			admission_status=admission_status, created_by=request.user)
+			SkillStudent.objects.create(name=name, area=area, laptop=laptop, date_applied=date_applied, pre_qualification=pre_qualification, admission_status=admission_status, created_by=request.user)
 			
-			# getting id of recently registered student
+			# getting id of the most recently registered student by this user to get student_id of this student
 			students_of_this_user = SkillStudent.objects.filter(created_by=request.user).order_by('id')
 			newly_added_student = students_of_this_user.last() # gettting the newly created user
 			newly_added_student_id = newly_added_student.id # getting its id
 
 			print("------ id : ",newly_added_student.id)
 
-			# PhoneNo Model object creation
+			# CurrentStudy Model object creation
 			CurrentStudy.objects.create(student_id=newly_added_student_id, program=currently_studying, created_by=request.user)
 
+			# PhoneNo Model object creation
+			PhoneNo.objects.create(student_id=newly_added_student_id, Personal_Phone_no_1=personal_phone_no_1, Personal_Phone_no_2=personal_phone_no_2, created_by=request.user)
+
 			messages.success(request, ('Skill Student has successfully been added!'))
-			return redirect('addskillstudentview')
+			return redirect('update_skill_detail_view', newly_added_student_id)
 
 		else:
-			messages.error(request, ('Form Not Valid!'))
-			print('Form Not Valid!')
-			return redirect('addskillstudentview')
+			messages.error(request, 'Error saving Skill Student. Please Try again.')		
+			return redirect('homeview')
 	
 	new_form = AddSkillStudentForm() # testing new form
 	return render(request=request, template_name="add_skillstudent_new.html", context={'new_form':new_form})
