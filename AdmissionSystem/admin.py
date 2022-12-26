@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import SkillStudent,ConventionalStudent,CurrentStudy,PhoneNo, ShortCoursesTaken,Job,ShortCourseName,JobPosition, Contacted
+from .models import *
 from .models import UserProfile
 
 # customizing backend ADMIN page
@@ -9,7 +9,6 @@ admin.site.site_title = 'Wise Institute'                   # default: "Site Titl
 
 
 # Register your models here.
-admin.site.register(ConventionalStudent)
 admin.site.register(SkillStudent)
 admin.site.register(CurrentStudy)
 admin.site.register(PhoneNo)

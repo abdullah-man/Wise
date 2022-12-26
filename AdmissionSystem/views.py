@@ -1,15 +1,9 @@
-from .models import ShortCourseName,JobPosition,Job,CurrentStudy,PhoneNo,ShortCoursesTaken,SkillStudent,ConventionalStudent, UserProfile
-from django.shortcuts import render, redirect, HttpResponse
+from .models import *
+from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate , login , logout
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.admin import widgets
-from django.db.models import fields
-from django import  forms
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.contrib.sessions.models import Session
 
  
 # ----------------------------------------------------------------------------------------
@@ -59,10 +53,8 @@ def homeview(request):
 
 	# getting all skill student objects count
 	skillstudentcount=SkillStudent.objects.all().count()
-	# getting all conventioanl student objects count
-	conventionalstudentcount=ConventionalStudent.objects.all().count()
 	
-	context={'conventionalstudentcount':conventionalstudentcount,'skillstudentcount':skillstudentcount}
+	context={'skillstudentcount':skillstudentcount}
 	return render(request=request, template_name="home.html",context=context)
 
 
@@ -371,7 +363,7 @@ def search_skill_dashboard(request):
 			
 			std_data.append(std.id)
 			std_data.append(std.name)
-			std_data.append(std.cnic_or_B_form_No)
+			std_data.append(std.cnic)
 			std_data.append(std.program_of_interest)
 			std_data.append(std.shift)
 			std_data.append(std.admission_status)
@@ -678,7 +670,7 @@ def modify_skill_dashboard(request):
 			std_data = list()	
 			std_data.append(std.id)
 			std_data.append(std.name)
-			std_data.append(std.cnic_or_B_form_No)
+			std_data.append(std.cnic)
 			std_data.append(std.program_of_interest)
 			std_data.append(std.shift)
 			std_data.append(std.admission_status)

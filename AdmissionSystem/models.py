@@ -5,10 +5,18 @@ from PIL import Image
 
 # Create your models here.
 
+class PreQualification(models.Model):
+	"""
+		Pre-Qualificaiton is last degree or certificate gotten by a student.
+	"""
+	pre_qualification_name = models.CharField(max_length=10, blank=True)
+	created_by = models.CharField(max_length=100,null=True,blank=True)
+	updated_by = models.CharField(max_length=100,null=True,blank=True)
+
 # model to add skill student 
 class SkillStudent(models.Model):
 	"""
-		Skill Student Data Entry
+		Skill Student details.
 	"""
 
 	# drop down choices for pre qualification
@@ -63,18 +71,6 @@ class SkillStudent(models.Model):
 	('Local Transport','Local Transport')
 	)
 
-	# drop down choices for admission status
-	admissionstatus_choice = (
-	('Contacted Virtually','Contacted Virtually'),
-	('Reception Appearance','Reception Interview'),
-	('Internal Interview','Internal Interview'),
-	('External Interview','External Interview'),
-	('Admitted','Admitted'),
-	('Rejected','Rejected'),
-	('Drop out','Drop out'),
-	('Passed out','Passed out'),
-	)
-
 	# drop down choices information source
 	informationsource_choice = (
 	('Random Walk-in','Random Walk-in'),
@@ -91,15 +87,15 @@ class SkillStudent(models.Model):
 
 	# to save student images to folder named to his form no
 	def student_directory_path(instance, filename):
-		return 'static/admissionsystem/student_images/%s/%s' % (instance.form_no, filename)
+		return 'static/admissionsystem/student_images/{0}/{1}'.format(instance.id, filename)
 
-	form_no = models.CharField(max_length=100, null=True, blank=True)
 	name = models.CharField(max_length=100)
-	pre_qualification = models.CharField(max_length=100,choices=pre_qualification_choice)
+	pre_qualification = models.ForeignKey(PreQualification, on_delete=models.SET_NULL, null=True, blank=True)
 	photograph = models.ImageField(upload_to=student_directory_path,blank=True, default='/static/default-images/default-student-img.jpg')
 	gender = models.CharField(max_length=100,choices=gender_choice, null=True, blank=True)
 	father_Name = models.CharField(max_length=100, null=True, blank=True)
-	cnic_or_B_form_No = models.CharField(max_length=100,null=True,blank=True)
+	cnic = models.CharField(max_length=100,null=True,blank=True)
+	b_form = models.CharField(max_length=100,null=True,blank=True)
 	email = models.EmailField(max_length=100,null=True,blank=True)
 	domicile = models.CharField(max_length=100, null=True, blank=True)
 	date_of_birth = models.DateField(null=True, blank=True)
@@ -108,68 +104,15 @@ class SkillStudent(models.Model):
 	area = models.CharField(max_length=100, null=True, blank=True)
 	laptop = models.BooleanField(null=True, blank=True)
 	computer_at_Home = models.BooleanField(null=True, blank=True)
-	shift = models.CharField(max_length=20,choices=shifts_choice, null=True, blank=True)
-	program_of_interest = models.CharField(max_length=100,choices=program_of_interest_choice, null=True, blank=True)
 	transportation = models.CharField(max_length=100,choices=transportation_choice, null=True, blank=True)
 	information_source=models.CharField(max_length=100,choices=informationsource_choice, null=True, blank=True)
-	admission_status = models.CharField(max_length=100,choices=admissionstatus_choice,default="Pending")
-	date_applied=models.DateField(null=True,blank=True)
+	reference = models.CharField(max_length=100, blank=True)
 	created_by = models.CharField(max_length=100,null=True,blank=True)
 	updated_by = models.CharField(max_length=100,null=True,blank=True)
 
 	def __str__(self):
 		return str(self.id)
 
-
-
-# model to add conventional student 
-class ConventionalStudent(models.Model):	
-	# drop down choices for shifts
-	shifts_choice = (
-	('Morning','Morning'),
-	('Evening','Evening'),
-	)
-	
-	# drop down choices for admission status
-	admissionstatus_choice = (
-	('Contacted Virtually','Contacted Virtually'),
-	('Reception Appearance','Reception Interview'),
-	('Internal Interview','Internal Interview'),
-	('External Interview','External Interview'),
-	('Admitted','Admitted'),
-	('Rejected','Rejected'),
-	('Drop out','Drop out'),
-	)
-
-	# drop down choices for gender
-	gender_choice = (
-	('Male','Male'),
-	('Female','Female'),
-	)
-
-	form_no = models.CharField(max_length=199,null=True,blank=True)
-	name = models.CharField(max_length=100)
-	gender = models.CharField(max_length=100,choices=gender_choice)
-	cnic_or_B_form_No = models.CharField(max_length=100)
-	father_Name = models.CharField(max_length=100)
-	father_income = models.CharField(max_length=100)
-	father_occupation = models.CharField(max_length=100)
-	class_of_interest = models.CharField(max_length=199,null=True,blank=True)
-	mobileno = models.CharField(max_length=100)
-	domicile = models.CharField(max_length=100)
-	date_of_birth = models.DateField()
-	religion = models.CharField(max_length=100)
-	district = models.CharField(max_length=100)
-	email = models.EmailField(max_length=100)
-	present_address=models.CharField(max_length=100)
-	sport_person = models.BooleanField()
-	hafiz = models.BooleanField()
-	disability= models.BooleanField()
-	shift = models.CharField(max_length=20,choices=shifts_choice)
-	admission_status = models.CharField(max_length=100,choices=admissionstatus_choice,default="Pending")
-
-	def __str__(self):
-		return self.name
 
 # query and its reply model for student
 class Contacted(models.Model):
@@ -284,4 +227,125 @@ class UserProfile(models.Model):
             img.thumbnail(output_size)
             img.save(self.image.path)
 
-	# educational background
+	
+
+class DocumentType(models.Model):
+	"""
+		Name/Type of a document.
+	"""
+
+	doc_type = models.CharField(max_length=100)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+class Document(models.Model):
+	"""
+		Document of a student. A student can have multiple documents.
+	"""
+	
+	def student_directory_path(instance, filename):
+		return 'static/admissionsystem/student_images/{0}/{1}'.format(instance.student, filename)
+
+	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE)
+	doc_type = models.ForeignKey(DocumentType, on_delete=models.SET_DEFAULT, default='DOC')
+	doc_file = models.FileField(upload_to=student_directory_path)
+	original_held = models.BooleanField(default=None)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+
+class StudentAvailability(models.Model):
+	"""
+		Availability of a student. A student can be available in multiple
+		time slots in a day.
+	"""
+	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE)
+	available_from = models.TimeField(auto_now=False,auto_now_add=False)
+	available_to = models.TimeField(auto_now=False,auto_now_add=False)
+
+
+class RollNo(models.Model):
+	"""
+		Roll-number of a student.
+	"""
+	Student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE)
+	roll_no = models.CharField(max_length=100)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True) # can be updated if abbreviation of course name or conducting body get modified
+
+
+class CourseConductingBody(models.Model):
+	course_conducting_body_name = models.CharField(max_length=50)
+	course_conducting_body_abbreviation = models.CharField(max_length=10)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+
+class CourseName(models.Model):
+	course_name = models.CharField(max_length=100)
+	course_abbreviation = models.CharField(max_length=10)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+
+class CourseBatchNo(models.Model):
+	course_batch_no = models.CharField(max_length=10)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+
+class CourseSection(models.Model):
+	course_section = models.CharField(max_length=10)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+
+class ShiftName(models.Model):
+	shift_name = models.CharField(max_length=10)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+
+class CourseApplication(models.Model):
+	"""
+		Course application. A student can have multiple course applications 
+		for different courses. 
+	"""
+
+	# drop down choices for admission status
+	admissionstatus_choice = (
+	('Contacted Virtually','Contacted Virtually'),
+	('Reception Appearance','Reception Interview'),
+	('Internal Interview','Internal Interview'),
+	('External Interview','External Interview'),
+	('Admitted','Admitted'),
+	('Rejected','Rejected'),
+	('Awaiting','Awaiting'),
+	('Drop out','Drop out'),
+	('Passed out','Passed out'),
+	)
+	form_no = models.CharField(max_length=100, null=True, blank=True)
+	# only two fields are required to create a course application object: date and admission status
+	# rest are optional, hence, given null=True
+	date_applied=models.DateField(null=True, blank=True)
+	admission_status = models.CharField(max_length=100,choices=admissionstatus_choice)
+	remarks = models.TextField(max_length=1000, null=True, blank=True)
+
+	course_body = models.ForeignKey(CourseConductingBody, on_delete=models.SET_NULL, null=True, blank=True)
+	course_name = models.ForeignKey(CourseName, on_delete=models.SET_NULL, null=True, blank=True)
+	batch = models.ForeignKey(CourseBatchNo, related_name="course_batch_id", on_delete=models.SET_NULL, null=True, blank=True)
+	section = models.ForeignKey(CourseBatchNo, related_name="course_section_id", on_delete=models.SET_NULL, null=True, blank=True)
+	shift = models.ForeignKey(ShiftName, on_delete=models.SET_NULL, null=True, blank=True)
+
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+class AlreadyRegisteredWithCourseBody(models.Model):
+	"""
+		A student may already be registered in databases of multiple course conducting bodies.
+	"""
+	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE)
+	course_body = models.ForeignKey(CourseConductingBody, on_delete=models.SET_NULL, null=True)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+

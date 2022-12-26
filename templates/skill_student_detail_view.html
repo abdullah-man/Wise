@@ -62,7 +62,11 @@
             <p class="mb-0"><strong class="pr-1">Student id:</strong>{{skill_std_form.id}}</p>
             <!-- <p class="mb-0"><strong class="pr-1">Class:</strong>4</p> -->
             <p class="mb-0"><strong class="pr-1">Form No:</strong>{{skill_std_form.form_no}}</p>
-            <p class="mb-0"><strong class="pr-1">Cnic No:</strong>{{skill_std_form.cnic_or_B_form_No}}</p>
+            {% if skill_std_form.cnic %}
+              <p class="mb-0"><strong class="pr-1">Cnic No:</strong>{{skill_std_form.cnic}}</p>
+            {% else %}
+            <p class="mb-0"><strong class="pr-1">B-Form No:</strong>{{skill_std_form.b_form}}</p>
+            {% endif %}
             <br>
             <input value="Update" type="button" style="width: 50%;" onclick="location.href='{% url 'update_skill_detail_view' skill_std_form.id %}'" class="btn btn-lg btn-outline-success mx-auto d-block" >
 
@@ -162,9 +166,15 @@
               </tr>
 
               <tr>
-                <th width="30%">Cnic or B Form No</th>
+                <th width="30%">Cnic</th>
                 <td width="2%">:</td>
-                <td>{{skill_std_form.cnic_or_B_form_No}}</td>
+                <td>{{skill_std_form.cnic}}</td>
+              </tr>
+
+              <tr>
+                <th width="30%">B-Form</th>
+                <td width="2%">:</td>
+                <td>{{skill_std_form.b_form}}</td>
               </tr>
 
               <tr>
