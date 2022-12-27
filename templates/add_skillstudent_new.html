@@ -20,6 +20,7 @@
         
         <h1 style="text-align: center;">Register Skill Student</h1>
         <p style="text-align: center;">Add a skill student here</p>
+
         <div>
             <form action="{% url 'addskillstudentview' %}" method="POST" enctype="multipart">
                 {% csrf_token %}
@@ -69,16 +70,9 @@
                         <th>Pre-Qualification</th>
                         <td>
                             <select name="pre_qualification" required>
-                                <option value="Matric">Matric</option>
-                                <option value="O-Levels">O-Levels</option>
-                                <option value="A-Levels">A-Levels</option>
-                                <option value="Inter">Inter</option>
-                                <option value="ADP">ADP</option>
-                                <option value="BS">BS</option>
-                                <option value="BE">BE</option>
-                                <option value="Masters">Masters</option>
-                                <option value="M.Phil">M.Phil</option>
-                                <option value="Ph.D">Ph.D</option>
+                                {% for option in skill_student_form.pre_qualification %}
+                                    {{ option }}
+                                {% endfor %}
                             </select>
                             <div><small>last degree or certificate</small></div>
                         </td>

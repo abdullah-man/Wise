@@ -93,17 +93,22 @@ def addskillstudentview(request):
 			currently_studying = add_skill_student_form.cleaned_data['currently_studying']
 			admission_status = add_skill_student_form.cleaned_data['admission_status']			
 			
+
+			# pre-qualification is a ModelMultipleChoiceField whereas pre_qualification is 
+			# a query-set. To get the relevant object from it, we use first()
+			pre_qualification = pre_qualification.first()
+
+			
+
 			data_list = [name, personal_phone_no_1, personal_phone_no_2, area, laptop, availability_from, availabitity_to, date_applied, pre_qualification, currently_studying, admission_status]
 			
 			print("Data List: ", data_list)
 
 			# --- 		Writing data to respective Models 		---
-			# ---	
-			# ---
-
+			# -----------------------------------------------------	
 
 			# skillstudent Model object creation
-			SkillStudent.objects.create(name=name, area=area, laptop=laptop, date_applied=date_applied, pre_qualification=pre_qualification, admission_status=admission_status, created_by=request.user)
+			SkillStudent.objects.create(name=name, area=area, laptop=laptop, pre_qualification=pre_qualification, created_by=request.user)
 			
 			# getting id of the most recently registered student by this user to get student_id of this student
 			students_of_this_user = SkillStudent.objects.filter(created_by=request.user).order_by('id')
@@ -125,43 +130,16 @@ def addskillstudentview(request):
 			messages.error(request, 'Error saving Skill Student. Please Try again.')		
 			return redirect('homeview')
 	
-	new_form = AddSkillStudentForm() # testing new form
-	return render(request=request, template_name="add_skillstudent_new.html", context={'new_form':new_form})
+	skill_student_form = AddSkillStudentForm() # testing new form
+	print(skill_student_form)
+	return render(request=request, template_name="add_skillstudent_new.html", context={'skill_student_form':skill_student_form})
 
-
-	# if request.method == "POST":
-	# 	skill_student_form = SkillStudentForm(request.POST, request.FILES)
-	# 	if skill_student_form.is_valid():
-	# 		skill_student_form.save()
-
-	# 		# creating other table objects for this student. These objects are null for now.
-	# 		# In order to fill these details, the user is to be redirected to update view
-	# 		# for this student.
-
-	# 		students_of_this_user = SkillStudent.objects.filter(created_by = request.user).order_by('id')
-	# 		newly_added_student = students_of_this_user.last() # gettting the newly created user
-	# 		newly_added_student_id = newly_added_student.id # getting its id
-
-	# 		# print("------ id : ",newly_added_student.id)
-	# 		# Adding Empty Object for this student in the CurrentStudy Table
-	# 		CurrentStudy.objects.create(student_id = newly_added_student_id, created_by = request.user)
-	# 		# Adding Empty Object for this student in the ShortCoursesTaken Table
-	# 		ShortCoursesTaken.objects.create(student_id = newly_added_student_id, created_by = request.user)
-	# 		# Adding Empty Object for this student in the PhoneNo Table
-	# 		PhoneNo.objects.create(student_id = newly_added_student_id, created_by = request.user)
-	# 		# Adding Empty Object for this student in the Job Table
-	# 		Job.objects.create(student_id = newly_added_student_id, created_by = request.user)
-
-
-
-	# 		messages.success(request, ('SkillStudent was successfully added!'))
-	# 		return redirect('update_skill_detail_view', newly_added_student_id)
-	# 	else:
-	# 		messages.error(request, 'Error saving SkillStudent Please Try again')		
-	# 		return redirect('homeview')
-
-	# skill_student_form = SkillStudentForm()
-	# return render(request=request, template_name="add_skillstudent.html", context={'skill_student_form':skill_student_form})
+@login_required(login_url='loginpageview')
+def prequalificationview(request):
+	"""
+		Pre-Qualification
+	"""
+	pass
 
 
 @login_required(login_url='loginpageview')

@@ -3,19 +3,6 @@ from .models import *
  
 class AddSkillStudentForm(forms.Form):
 
-    pre_qualification_choice = [
-    ('',''),
-    ('Matric','Matric'),
-    ('O-Levels','O-Levels'),
-    ('A-Levels','A-Levels'),
-    ('Inter','Inter'),
-    ('ADP','ADP'),
-    ('BS','BS'),
-    ('BE','BE'),
-    ('Masters','Masters'),
-    ('M.Phil','M.Phil'),
-    ('PhD','PhD'),
-    ]
 
     admissionstatus_choice = [
     ('',''),
@@ -30,17 +17,17 @@ class AddSkillStudentForm(forms.Form):
     ('Pass out','Pass out'),
     ]
 
-    name = forms.CharField(label='Name', required=True)
-    personal_phone_no_1 = forms.CharField(label='Phone1', required=True)
-    personal_phone_no_2 = forms.CharField(label='Phone2', required=False)
-    area = forms.CharField(label='Area', required=True)
-    laptop = forms.CharField(label='Laptop', required=True)
-    availability_from = forms.TimeField(label='Availability From', required=True)
-    availabitity_to = forms.TimeField(label='Availablility To', required=True)
-    date_applied = forms.DateField(label='Date Applied', required=True)
-    pre_qualification = forms.CharField(label='PreQualification', widget=forms.Select(choices=pre_qualification_choice), required=True)
-    currently_studying = forms.CharField(label='Current Degree Program')
-    admission_status = forms.CharField(label='Admission Status', widget=forms.Select(choices=admissionstatus_choice), required=True)
+    name = forms.CharField(required=True)
+    personal_phone_no_1 = forms.CharField(required=True)
+    personal_phone_no_2 = forms.CharField(required=False)
+    area = forms.CharField(required=True)
+    laptop = forms.CharField(required=True)
+    availability_from = forms.TimeField(required=True)
+    availabitity_to = forms.TimeField(required=True)
+    date_applied = forms.DateField(required=True)
+    pre_qualification = forms.ModelMultipleChoiceField(queryset=(PreQualification.objects.all()), required=True)
+    currently_studying = forms.CharField()
+    admission_status = forms.CharField(widget=forms.Select(choices=admissionstatus_choice), required=True)
 
 
 
@@ -83,6 +70,12 @@ class ContactedForm(forms.ModelForm):
     class Meta:
         model = Contacted
         fields = ('__all__')
+
+
+class PrequalificaitonForm(forms.ModelForm):
+    class Meta:
+        pass
+
 
 class StudentCustomSearchForm(forms.Form):
     pre_qualification_choice = [

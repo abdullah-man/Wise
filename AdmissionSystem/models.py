@@ -13,25 +13,14 @@ class PreQualification(models.Model):
 	created_by = models.CharField(max_length=100,null=True,blank=True)
 	updated_by = models.CharField(max_length=100,null=True,blank=True)
 
+	def __str__(self):
+		return str(self.pre_qualification_name)
+
 # model to add skill student 
 class SkillStudent(models.Model):
 	"""
 		Skill Student details.
 	"""
-
-	# drop down choices for pre qualification
-	pre_qualification_choice = (
-	('Matric','Matric'),
-	('O-Levels','O-Levels'),
-	('A-Levels','A-Levels'),
-	('Inter','Inter'),
-	('ADP','ADP'),
-	('BS','BS'),
-	('BE','BE'),
-	('Masters','Masters'),
-	('M.Phil','M.Phil'),
-	('PhD','PhD'),
-	)
 	
 	# drop down choices for residencial status
 	residencial_status_choice = (
@@ -238,6 +227,9 @@ class DocumentType(models.Model):
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
+	def __str__(self):
+		return str(self.doc_type)
+
 class Document(models.Model):
 	"""
 		Document of a student. A student can have multiple documents.
@@ -253,6 +245,9 @@ class Document(models.Model):
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
+	def __str__(self):
+		return str(self.doc_type) + "_" + str(self.student)
+
 
 class StudentAvailability(models.Model):
 	"""
@@ -262,6 +257,9 @@ class StudentAvailability(models.Model):
 	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE)
 	available_from = models.TimeField(auto_now=False,auto_now_add=False)
 	available_to = models.TimeField(auto_now=False,auto_now_add=False)
+
+	def __str__(self):
+		return "availability of "+ str(self.student)
 
 
 class RollNo(models.Model):
@@ -273,12 +271,17 @@ class RollNo(models.Model):
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True) # can be updated if abbreviation of course name or conducting body get modified
 
+	def __str__(self):
+		return str(self.roll_no)
 
 class CourseConductingBody(models.Model):
 	course_conducting_body_name = models.CharField(max_length=50)
 	course_conducting_body_abbreviation = models.CharField(max_length=10)
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+	def __str__(self):
+		return str(self.course_conducting_body_name)
 
 
 class CourseName(models.Model):
@@ -287,11 +290,17 @@ class CourseName(models.Model):
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
+	def __str__(self):
+		return str(self.course_name)
+
 
 class CourseBatchNo(models.Model):
 	course_batch_no = models.CharField(max_length=10)
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
+	def __str__(self):
+		return str(self.course_batch_no)
 
 
 class CourseSection(models.Model):
@@ -299,12 +308,17 @@ class CourseSection(models.Model):
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
+	def __str__(self):
+		return str(self.course_section)
+
 
 class ShiftName(models.Model):
 	shift_name = models.CharField(max_length=10)
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
+	def __str__(self):
+		return str(self.shift_name)
 
 class CourseApplication(models.Model):
 	"""
@@ -340,6 +354,9 @@ class CourseApplication(models.Model):
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
+	def __str__(self):
+		return "application "+str(self.id)
+
 class AlreadyRegisteredWithCourseBody(models.Model):
 	"""
 		A student may already be registered in databases of multiple course conducting bodies.
@@ -349,3 +366,5 @@ class AlreadyRegisteredWithCourseBody(models.Model):
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
+	def __str__(self):
+		return "student "+str(self.student)+" already applied in"+str(self.course_body)
