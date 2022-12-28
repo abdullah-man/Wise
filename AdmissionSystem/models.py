@@ -206,8 +206,10 @@ class PhoneNo(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='static/default-images/default-staff-female.png', upload_to='static/admissionsystem/user-images')
+
     def __str__(self):
         return f'{self.user.username} Profile'
+		
     def save(self):
         super().save()
         img = Image.open(self.image.path)
@@ -295,7 +297,7 @@ class CourseName(models.Model):
 
 
 class CourseBatchNo(models.Model):
-	course_batch_no = models.CharField(max_length=10)
+	course_batch_no = models.CharField(max_length=50)
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
@@ -314,6 +316,7 @@ class CourseSection(models.Model):
 
 class ShiftName(models.Model):
 	shift_name = models.CharField(max_length=10)
+	shift_abbreviation = models.CharField(max_length=10, blank=True)
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
@@ -338,6 +341,7 @@ class CourseApplication(models.Model):
 	('Drop out','Drop out'),
 	('Passed out','Passed out'),
 	)
+	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE)
 	form_no = models.CharField(max_length=100, null=True, blank=True)
 	# only two fields are required to create a course application object: date and admission status
 	# rest are optional, hence, given null=True
@@ -348,7 +352,7 @@ class CourseApplication(models.Model):
 	course_body = models.ForeignKey(CourseConductingBody, on_delete=models.SET_NULL, null=True, blank=True)
 	course_name = models.ForeignKey(CourseName, on_delete=models.SET_NULL, null=True, blank=True)
 	batch = models.ForeignKey(CourseBatchNo, related_name="course_batch_id", on_delete=models.SET_NULL, null=True, blank=True)
-	section = models.ForeignKey(CourseBatchNo, related_name="course_section_id", on_delete=models.SET_NULL, null=True, blank=True)
+	section = models.ForeignKey(CourseSection, related_name="course_section_id", on_delete=models.SET_NULL, null=True, blank=True)
 	shift = models.ForeignKey(ShiftName, on_delete=models.SET_NULL, null=True, blank=True)
 
 	created_by = models.CharField(max_length=100)

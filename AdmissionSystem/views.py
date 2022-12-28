@@ -93,7 +93,8 @@ def addskillstudentview(request):
 			currently_studying = add_skill_student_form.cleaned_data['currently_studying']
 			admission_status = add_skill_student_form.cleaned_data['admission_status']			
 			
-
+			print("---------------------------", type(pre_qualification))
+			
 			# pre-qualification is a ModelMultipleChoiceField whereas pre_qualification is 
 			# a query-set. To get the relevant object from it, we use first()
 			pre_qualification = pre_qualification.first()
