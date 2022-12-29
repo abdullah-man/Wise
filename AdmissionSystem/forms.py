@@ -18,8 +18,8 @@ class AddSkillStudentForm(forms.Form):
     ]
 
     name = forms.CharField(required=True)
-    personal_phone_no_1 = forms.CharField(required=True)
-    personal_phone_no_2 = forms.CharField(required=False)
+    personal_no_1 = forms.CharField(required=True)
+    personal_no_2 = forms.CharField(required=False)
     area = forms.CharField(required=True)
     laptop = forms.CharField(required=True)
     availability_from = forms.TimeField(required=True)

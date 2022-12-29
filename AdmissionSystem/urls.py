@@ -28,6 +28,8 @@ urlpatterns = [
     path('delete_skillstudent/<int:id>/',views.delete_skill_student,name='delete_skill_student'),
     path('delete_shortcoursetaken/<int:id>/<int:student_id>/',views.delete_shortcoursetaken,name='delete_shortcoursetaken'),
     path('delete_job/<int:job_id>/<int:student_id>/',views.delete_job,name='delete_job'),
+    path('delete_job_position/<int:job_position_id>/',views.delete_job_position,name='delete_job_position'),
+
     # path('delete_query/<int:query_id>/<int:student_id>/',views.delete_query,name='delete_query'),
 
 

@@ -176,7 +176,7 @@ class JobPosition(models.Model):
 # model to add job for student
 class Job(models.Model):
 	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE, blank=True)
-	position=models.ForeignKey(JobPosition,on_delete=models.DO_NOTHING, null=True, blank=True)
+	position=models.ForeignKey(JobPosition, on_delete=models.SET_NULL, null=True, blank=True)
 	company = models.CharField(max_length=100, null=True, blank=True)
 	start_timings = models.TimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	end_timings=models.TimeField(auto_now=False,auto_now_add=False, null=True, blank=True)
@@ -191,11 +191,11 @@ class Job(models.Model):
 # model to add phone numbers for student
 class PhoneNo(models.Model):
 	student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE, blank=True)
-	Personal_Phone_no_1 = models.CharField(max_length=100, null=True, blank=True)	
-	Personal_Phone_no_2 = models.CharField(max_length=100, null=True, blank=True)	
-	Father_Phone_no = models.CharField(max_length=100, null=True, blank=True)	
-	Mother_Phone_no = models.CharField(max_length=100, null=True, blank=True)	
-	Emergency_Phone_no = models.CharField(max_length=100, null=True, blank=True)	
+	personal_phone_no_1 = models.CharField(max_length=100, null=True, blank=True)	
+	personal_phone_no_2 = models.CharField(max_length=100, null=True, blank=True)	
+	father_phone_no = models.CharField(max_length=100, null=True, blank=True)	
+	mother_phone_no = models.CharField(max_length=100, null=True, blank=True)	
+	emergency_phone_no = models.CharField(max_length=100, null=True, blank=True)	
 	created_by = models.CharField(max_length=100, null=True, blank=True)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)	
 	
@@ -210,15 +210,14 @@ class UserProfile(models.Model):
     def __str__(self):
         return f'{self.user.username} Profile'
 		
-    def save(self):
-        super().save()
+    def save(self, *args, **kwargs):
+        super(UserProfile, self).save(*args, **kwargs)
         img = Image.open(self.image.path)
         if img.height > 300 or img.width > 300:
             output_size = (300, 300)
             img.thumbnail(output_size)
             img.save(self.image.path)
 
-	
 
 class DocumentType(models.Model):
 	"""
@@ -259,6 +258,9 @@ class StudentAvailability(models.Model):
 	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE)
 	available_from = models.TimeField(auto_now=False,auto_now_add=False)
 	available_to = models.TimeField(auto_now=False,auto_now_add=False)
+	created_by = models.CharField(max_length=100)
+	updated_by = models.CharField(max_length=100, null=True, blank=True)
+
 
 	def __str__(self):
 		return "availability of "+ str(self.student)

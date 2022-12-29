@@ -21,14 +21,14 @@ def loginpageview(request):
 		password=request.POST.get('password')
 		user=authenticate(request,username=username,password=password)
 		if user is not None:
-			login (request,user)
+			login (request, user)
 			# putting the currently logged-in user into the session
 			request.session['current-user-username'] = user.username
 			return redirect('homeview')
 		else:
 			messages.info(request,'Username or Password incorrect')
-	context={}
-	return render(request,'login.html',context)
+
+	return render(request,'login.html')
 
 
 @login_required(login_url='loginpageview')
@@ -74,16 +74,13 @@ def addskillstudentview(request):
 	"""
 
 	if request.method == "POST":
-		print("0")
-		add_skill_student_form = AddSkillStudentForm(request.POST)
-		print("1")
 		
+		add_skill_student_form = AddSkillStudentForm(request.POST)
 		if add_skill_student_form.is_valid():
-			print("2")
 			# getting the filled data 
 			name = add_skill_student_form.cleaned_data['name']
-			personal_phone_no_1 = add_skill_student_form.cleaned_data['personal_phone_no_1']
-			personal_phone_no_2 = add_skill_student_form.cleaned_data['personal_phone_no_2']
+			personal_no_1 = add_skill_student_form.cleaned_data['personal_no_1']
+			personal_no_2 = add_skill_student_form.cleaned_data['personal_no_2']
 			area = add_skill_student_form.cleaned_data['area']
 			laptop = add_skill_student_form.cleaned_data['laptop']
 			availability_from = add_skill_student_form.cleaned_data['availability_from']
@@ -93,16 +90,11 @@ def addskillstudentview(request):
 			currently_studying = add_skill_student_form.cleaned_data['currently_studying']
 			admission_status = add_skill_student_form.cleaned_data['admission_status']			
 			
-			print("---------------------------", type(pre_qualification))
-			
 			# pre-qualification is a ModelMultipleChoiceField whereas pre_qualification is 
 			# a query-set. To get the relevant object from it, we use first()
 			pre_qualification = pre_qualification.first()
 
-			
-
-			data_list = [name, personal_phone_no_1, personal_phone_no_2, area, laptop, availability_from, availabitity_to, date_applied, pre_qualification, currently_studying, admission_status]
-			
+			data_list = [name, personal_no_1, personal_no_2, area, laptop, availability_from, availabitity_to, date_applied, pre_qualification, currently_studying, admission_status]
 			print("Data List: ", data_list)
 
 			# --- 		Writing data to respective Models 		---
@@ -115,24 +107,28 @@ def addskillstudentview(request):
 			students_of_this_user = SkillStudent.objects.filter(created_by=request.user).order_by('id')
 			newly_added_student = students_of_this_user.last() # gettting the newly created user
 			newly_added_student_id = newly_added_student.id # getting its id
-
 			print("------ id : ",newly_added_student.id)
 
 			# CurrentStudy Model object creation
 			CurrentStudy.objects.create(student_id=newly_added_student_id, program=currently_studying, created_by=request.user)
-
+			
 			# PhoneNo Model object creation
-			PhoneNo.objects.create(student_id=newly_added_student_id, Personal_Phone_no_1=personal_phone_no_1, Personal_Phone_no_2=personal_phone_no_2, created_by=request.user)
+			PhoneNo.objects.create(student_id=newly_added_student_id, personal_phone_no_1=personal_no_1, personal_phone_no_2=personal_no_2, created_by=request.user)
 
-			messages.success(request, ('Skill Student has successfully been added!'))
+			# StudentAvailability Model object creation
+			StudentAvailability.objects.create(student_id=newly_added_student_id, available_from=availability_from, available_to=availabitity_to, created_by=request.user)
+
+			# CourseApplication Model object creation
+			CourseApplication.objects.create(student_id=newly_added_student_id, date_applied=date_applied, admission_status=admission_status)
+
+			messages.success(request, 'Skill Student has successfully been added!')
 			return redirect('update_skill_detail_view', newly_added_student_id)
 
 		else:
 			messages.error(request, 'Error saving Skill Student. Please Try again.')		
 			return redirect('homeview')
 	
-	skill_student_form = AddSkillStudentForm() # testing new form
-	print(skill_student_form)
+	skill_student_form = AddSkillStudentForm()
 	return render(request=request, template_name="add_skillstudent_new.html", context={'skill_student_form':skill_student_form})
 
 @login_required(login_url='loginpageview')
@@ -150,20 +146,17 @@ def shortcoursenameview(request):
 		On Post request, it adds a short course name. 
 		This created name is associated with shortcoursetaken objects.
 	"""
-
-	# get id of Student to display in template
-	skillstudentobjects=SkillStudent.objects.order_by('id').last()
-
 	if request.method == "POST":
-		shortcoursename_form = ShortCourseNameForm(request.POST, request.FILES)
+		shortcoursename_form = ShortCourseNameForm(request.POST)
 		if shortcoursename_form.is_valid():
 			shortcoursename_form.save()
-			messages.success(request, ('ShortCourseName was successfully added!'))
+			messages.success(request, ('Short Course Name has successfully been added!'))
 			return redirect('shortcourse_name_dashboard')
 		else:
-			messages.error(request, 'Error saving ShortCourseName')
+			messages.error(request, 'Error saving Short Course Name')
+	
 	shortcoursename_form = ShortCourseNameForm()
-	return render(request=request, template_name="shortcoursename.html", context={'shortcoursename_form':shortcoursename_form,'skillstudentobjects':skillstudentobjects})
+	return render(request=request, template_name="shortcoursename.html", context={'shortcoursename_form':shortcoursename_form})
 
 
 @login_required(login_url='loginpageview')
@@ -173,13 +166,13 @@ def shortcoursetakenview(request, student_id):
 		params:
 			student_id: The id of a student for whom the short course info is being added.
 	"""
-
 	if request.method == "POST":
 		shortcoursetaken_form = ShortCoursesTakenForm(request.POST)
 		if shortcoursetaken_form.is_valid():
 			shortcoursetaken_form.save()
 			messages.success(request, ('ShortCourseTaken was successfully added!'))
 			return redirect('update_skill_detail_view',student_id)
+
 	shortcoursetaken_form = ShortCoursesTakenForm()
 	return render(request=request, template_name="add_shortcoursetaken.html", context={'shortcoursetaken_form':shortcoursetaken_form,'student_id':student_id})
 
@@ -190,27 +183,22 @@ def jobpositionview(request):
 		On Get request, this view displays shortcoursename_form to be filled. 
 		On Post request, it adds a short course name. 
 		This created name is associated with shortcoursetaken objects.
-	"""
-
-	# # getting the id of Student to display in template
-	# skillstudentobjects=SkillStudent.objects.order_by('id').last()
-	jobposition_form = JobPositionForm()
-
+	"""	
 	if request.method == "POST":
 		jobposition_form = JobPositionForm(request.POST)
 		if jobposition_form.is_valid():
 			jobposition_form.save()
-			messages.success(request, ('Job Position was successfully added!'))
+			messages.success(request, ('Job position has successfully been added!'))
 			return redirect('job_position_dashboard')
 		else:
-			messages.error(request, 'Error saving JobPosition')
-	
-	# return render(request=request, template_name="jobposition.html", context={'jobposition_form':jobposition_form,'skillstudentobjects':skillstudentobjects})
+			messages.error(request, 'Error saving job position')
+
+	jobposition_form = JobPositionForm()
 	return render(request=request, template_name="jobposition.html", context={'jobposition_form':jobposition_form})
 
 
 @login_required(login_url='loginpageview')
-def jobview(request,student_id):
+def jobview(request, student_id):
 	"""
 		On Get request, this view displays job_form to be filled for a particular student
 		whose id is passed in the parameters under student_id argument.
@@ -226,13 +214,14 @@ def jobview(request,student_id):
 			return redirect('update_skill_detail_view',student_id)
 		else:
 			messages.error(request, 'Error saving Job')
+
 	job_form = JobForm()
 	return render(request=request, template_name="job.html", context={'job_form':job_form,'student_id':student_id})
 
 
 # query view named as contacted in models and as ContactedForm in forms.py 
 @login_required(login_url='loginpageview')
-def add_query(request,student_id):
+def add_query(request, student_id):
 	"""
 		Adds a Query and its Reply against a skill student.
 		On Get request, it displays a contacted_form for the passed student (student_id).
@@ -241,9 +230,6 @@ def add_query(request,student_id):
 		params:
 			student_id : The id of a student for whom the query info is being added.
 	"""
-
-	contacted_form = ContactedForm()
-
 	if request.method == "POST":
 		contacted_form = ContactedForm(request.POST)
 		if contacted_form.is_valid():
@@ -261,14 +247,19 @@ def user_profile(request):
 	"""
 		Returns the profile of currently logged-in user.
 	"""
-
 	user = request.user
-	profile_object_queryset = UserProfile.objects.filter(user_id=user.id)
-	profile_object = profile_object_queryset.first() # reading the only-one found profile-object associated with the given user id
-	profile_image = profile_object.image # as there is only one field in the profile object i.e. image
-	
-	return render(request,"user_profile.html",context={'current_user':user, 'profile_image':profile_image})
 
+	if UserProfile.objects.filter(user_id=user.id).first()!=None:
+		profile_object = UserProfile.objects.filter(user_id=user.id).first() # reading the only-one found profile-object associated with the given user id
+		profile_image = profile_object.image # as there is only one field in the profile object i.e. image
+
+	else:
+		# if there is no profile object created for this user, then create it
+		UserProfile.objects.create(user=request.user)
+		profile_object = UserProfile.objects.filter(user_id=user.id).first()
+		profile_image = profile_object.image
+
+	return render(request,"user_profile.html",context={'current_user':user, 'profile_image':profile_image})
 
 
 @login_required(login_url='loginpageview')
@@ -343,10 +334,10 @@ def search_skill_dashboard(request):
 			std_data.append(std.id)
 			std_data.append(std.name)
 			std_data.append(std.cnic)
-			std_data.append(std.program_of_interest)
-			std_data.append(std.shift)
-			std_data.append(std.admission_status)
-			std_data.append(std.date_applied)
+			std_data.append("")
+			std_data.append("")
+			std_data.append("")
+			std_data.append("")
 			
 			# getting personal phone details of the respective student
 			std_id = std.id
@@ -357,10 +348,10 @@ def search_skill_dashboard(request):
 			personal_phone_number_1_of_student = ''
 
 			for phone_obj in PhoneNo.objects.raw(query):
-				if phone_obj.Personal_Phone_no_1 is None:
+				if phone_obj.personal_phone_no_1 is None:
 					continue
 				else:
-					personal_phone_number_1_of_student = personal_phone_number_1_of_student + phone_obj.Personal_Phone_no_1
+					personal_phone_number_1_of_student = personal_phone_number_1_of_student + phone_obj.personal_phone_no_1
 
 			std_data.append(personal_phone_number_1_of_student)
 			all_std_data.append(std_data)
@@ -369,12 +360,12 @@ def search_skill_dashboard(request):
 
 
 	if request.method == "POST":
-		contacted_form = StudentCustomSearchForm(request.POST)
-		if contacted_form.is_valid():
-			shift = contacted_form.cleaned_data['shift']
-			program_of_interest = contacted_form.cleaned_data['program_of_interest']
-			admission_status = contacted_form.cleaned_data['admission_status']
-			created_by = contacted_form.cleaned_data['created_by']
+		custom_search_done = StudentCustomSearchForm(request.POST)
+		if custom_search_done.is_valid():
+			shift = custom_search_done.cleaned_data['shift']
+			program_of_interest = custom_search_done.cleaned_data['program_of_interest']
+			admission_status = custom_search_done.cleaned_data['admission_status']
+			created_by = custom_search_done.cleaned_data['created_by']
 
 			data_list = [shift, program_of_interest, admission_status, created_by]
 			dict_of_data={}
@@ -464,16 +455,16 @@ def update_shortcourse_taken(request,id):
 	"""
 
 	"""
-
 	shortcourse_object=ShortCoursesTaken.objects.get(id=id)
 	form=ShortCoursesTakenForm(instance=shortcourse_object)
+
 	# getting student id. As shortcourse_object returns student_id on print 
 	# because of its dunder str function returns the student id
 	# student_id is to be passed on in the context to make it available in the
 	# shortcoursetakenupdate.html template where this would be used inside
 	# delete button to be passed as argument to run delete view
 	student_id = shortcourse_object.student_id
-
+	
 	if request.method=='POST':
 		form=ShortCoursesTakenForm(request.POST,instance=shortcourse_object)
 		if form.is_valid():
@@ -521,12 +512,10 @@ def update_phone_no(request,id):
 	return render(request,'phonenoupdate.html',{'form':form})
 
 
-
 # view to update added query for skill students
 @login_required(login_url='loginpageview')
 def update_query(request,id):
 	contacted_object=Contacted.objects.get(id=id)
-	form=ContactedForm(instance=contacted_object)
 	if request.method=='POST':
 		form=ContactedForm(request.POST,instance=contacted_object)
 		if form.is_valid():
@@ -536,11 +525,11 @@ def update_query(request,id):
 		form=ContactedForm(instance=contacted_object)
 	return render(request,'update_query.html',{'form':form,'contacted_object':contacted_object})
 
+
 # job position update View to update job position
 @login_required(login_url='loginpageview')
 def update_job_position(request,id):
 	job_position_object=JobPosition.objects.get(id=id)
-	form=JobPositionForm(instance=job_position_object)
 	if request.method=='POST':
 		form=JobPositionForm(request.POST,instance=job_position_object)
 		if form.is_valid():
@@ -548,7 +537,7 @@ def update_job_position(request,id):
 			return redirect('job_position_dashboard')
 	else:
 		form=JobPositionForm(instance=job_position_object)
-	return render(request,'jobpositionupdate.html',{'form':form})
+	return render(request,'jobpositionupdate.html',{'form':form, 'job_position_id':id})
 
 
 # short course name update view to update added shortcourse names
@@ -561,7 +550,7 @@ def update_shortcourse_name(request,id):
 		if form.is_valid():
 			form.save()
 			return redirect('shortcourse_name_dashboard')
-	return render(request,'shortcoursenameupdate.html',{'form':form})
+	return render(request,'shortcoursenameupdate.html', {'form':form})
   
 # ----------------------------------------------------------------------------------------
 # 							DELETE VIEWS
@@ -611,6 +600,25 @@ def delete_job(request, job_id, student_id):
 	# redirecting back to the update view of the student
 	return redirect('update_skill_detail_view', student_id) 
 
+
+@login_required(login_url='loginpageview')
+def delete_job_position(request, job_position_id):
+	"""
+		This view deletes a job name / position.
+		params:
+			job_id:				id of job object which is to be deleted
+	"""
+	job_position_object=JobPosition.objects.get(id=job_position_id)
+	# deleting the object
+	job_position_object.delete()
+	# redirecting back to the update view of the student
+	return redirect('job_position_dashboard')
+
+
+
+
+
+
 # @login_required(login_url='loginpageview')
 # def delete_query(request, query_id, student_id):
 # 	"""
@@ -650,10 +658,10 @@ def modify_skill_dashboard(request):
 			std_data.append(std.id)
 			std_data.append(std.name)
 			std_data.append(std.cnic)
-			std_data.append(std.program_of_interest)
-			std_data.append(std.shift)
-			std_data.append(std.admission_status)
-			std_data.append(std.date_applied)
+			std_data.append("")
+			std_data.append("")
+			std_data.append("")
+			std_data.append("")
 			
 			# getting personal phone details of the respective student
 			std_id = std.id
@@ -664,10 +672,10 @@ def modify_skill_dashboard(request):
 			personal_phone_number_1_of_student = ''
 
 			for phone_obj in PhoneNo.objects.raw(query):
-				if phone_obj.Personal_Phone_no_1 is None:
+				if phone_obj.personal_phone_no_1 is None:
 					continue
 				else:
-					personal_phone_number_1_of_student = personal_phone_number_1_of_student + phone_obj.Personal_Phone_no_1
+					personal_phone_number_1_of_student = personal_phone_number_1_of_student + phone_obj.personal_phone_no_1
 
 			std_data.append(personal_phone_number_1_of_student)
 			all_std_data.append(std_data)
