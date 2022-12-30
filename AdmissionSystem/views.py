@@ -4,7 +4,7 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
-
+from .view_helper_functions import generate_context
  
 # ----------------------------------------------------------------------------------------
 # 							LOGIN / LOGOUT
@@ -320,45 +320,6 @@ def search_skill_dashboard(request):
 		On Post request, it returns a context comprising of information of
 		students that are selected on the basis of criteria sent in the Post request.
 	"""
-
-	def generate_context(skillstudentobjects):
-		"""
-			This is an inner function to create context comprising of student data
-			for both post and get requests on search_skill_dashboard.
-		"""
-		all_std_data = list()
-		
-		for std in skillstudentobjects:
-			std_data = list()	
-			
-			std_data.append(std.id)
-			std_data.append(std.name)
-			std_data.append(std.cnic)
-			std_data.append("")
-			std_data.append("")
-			std_data.append("")
-			std_data.append("")
-			
-			# getting personal phone details of the respective student
-			std_id = std.id
-			query = f"SELECT * FROM AdmissionSystem_phoneno WHERE student_id={std_id}"
-		    # print(query)
-			# print(std_id)
-			
-			personal_phone_number_1_of_student = ''
-
-			for phone_obj in PhoneNo.objects.raw(query):
-				if phone_obj.personal_phone_no_1 is None:
-					continue
-				else:
-					personal_phone_number_1_of_student = personal_phone_number_1_of_student + phone_obj.personal_phone_no_1
-
-			std_data.append(personal_phone_number_1_of_student)
-			all_std_data.append(std_data)
-
-		return all_std_data
-
-
 	if request.method == "POST":
 		custom_search_done = StudentCustomSearchForm(request.POST)
 		if custom_search_done.is_valid():
@@ -645,43 +606,6 @@ def delete_job_position(request, job_position_id):
 # view to get all skillstudents on dashboard for update 
 @login_required(login_url='loginpageview')
 def modify_skill_dashboard(request):
-
-	def generate_context(skillstudentobjects):
-		"""
-			This is an inner function to create context comprising of student data
-			for both post and get requests on search_skill_dashboard.
-		"""
-		all_std_data = list()
-		
-		for std in skillstudentobjects:
-			std_data = list()	
-			std_data.append(std.id)
-			std_data.append(std.name)
-			std_data.append(std.cnic)
-			std_data.append("")
-			std_data.append("")
-			std_data.append("")
-			std_data.append("")
-			
-			# getting personal phone details of the respective student
-			std_id = std.id
-			query = f"SELECT * FROM AdmissionSystem_phoneno WHERE student_id={std_id}"
-		    # print(query)
-			# print(std_id)
-			
-			personal_phone_number_1_of_student = ''
-
-			for phone_obj in PhoneNo.objects.raw(query):
-				if phone_obj.personal_phone_no_1 is None:
-					continue
-				else:
-					personal_phone_number_1_of_student = personal_phone_number_1_of_student + phone_obj.personal_phone_no_1
-
-			std_data.append(personal_phone_number_1_of_student)
-			all_std_data.append(std_data)
-
-		return all_std_data
-
 
 	if request.method == "POST":
 		contacted_form = StudentCustomSearchForm(request.POST)

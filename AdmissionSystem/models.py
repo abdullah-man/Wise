@@ -347,15 +347,15 @@ class CourseApplication(models.Model):
 	form_no = models.CharField(max_length=100, null=True, blank=True)
 	# only two fields are required to create a course application object: date and admission status
 	# rest are optional, hence, given null=True
-	date_applied=models.DateField(null=True, blank=True)
+	date_applied=models.DateField(auto_created=False, auto_now_add=False, null=True, blank=True)
 	admission_status = models.CharField(max_length=100,choices=admissionstatus_choice)
 	remarks = models.TextField(max_length=1000, null=True, blank=True)
 
 	course_body = models.ForeignKey(CourseConductingBody, on_delete=models.SET_NULL, null=True, blank=True)
 	course_name = models.ForeignKey(CourseName, on_delete=models.SET_NULL, null=True, blank=True)
 	batch = models.ForeignKey(CourseBatchNo, related_name="course_batch_id", on_delete=models.SET_NULL, null=True, blank=True)
-	section = models.ForeignKey(CourseSection, related_name="course_section_id", on_delete=models.SET_NULL, null=True, blank=True)
 	shift = models.ForeignKey(ShiftName, on_delete=models.SET_NULL, null=True, blank=True)
+	section = models.ForeignKey(CourseSection, related_name="course_section_id", on_delete=models.SET_NULL, null=True, blank=True)
 
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
