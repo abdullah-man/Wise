@@ -144,7 +144,9 @@ class StudentCustomSearchForm(forms.Form):
     ('External Interview','External Interview'),
     ('Admitted','Admitted'),
     ('Rejected','Rejected'),
+    ('Awaiting','Awaiting'),
     ('Drop out','Drop out'),
+    ('Pass out','Pass out'),
     ]
 
     created_by_choice = [

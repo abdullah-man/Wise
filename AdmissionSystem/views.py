@@ -4,7 +4,7 @@ from .forms import *
 from django.contrib import messages
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
-from .view_helper_functions import generate_context
+from .view_helper_functions import generate_context, generate_context_new
  
 # ----------------------------------------------------------------------------------------
 # 							LOGIN / LOGOUT
@@ -355,7 +355,7 @@ def search_skill_dashboard(request):
 			std_data = generate_context(skillstudentobjects=skillstudentobjects)
 	else:
 		skillstudentobjects=SkillStudent.objects.all()
-		std_data = generate_context(skillstudentobjects=skillstudentobjects)
+		std_data = generate_context_new(skillstudentobjects=skillstudentobjects)
 
 	student_custom_search_form=StudentCustomSearchForm()
 	context = {
