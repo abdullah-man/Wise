@@ -247,7 +247,7 @@ class Migration(migrations.Migration):
                         choices=[
                             ("Private", "Private"),
                             ("NAVTTC", "NAVTTC"),
-                            ("PSDA", "PSDA"),
+                            ("PSDF", "PSDF"),
                             ("TEVTA", "TEVTA"),
                             ("Digiskill", "Digiskill"),
                             ("PIAIC", "PIAIC"),

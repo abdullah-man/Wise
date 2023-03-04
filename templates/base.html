@@ -55,7 +55,6 @@
                      <li class="dropdown"><a href="/"><span>Skill Student</span> <i class="bi bi-chevron-right"></i></a>
                         <ul>
                             <li><a href="{% url 'addskillstudentview' %}">Add Student</a></li>
-                            <li><a href="{% url 'modify_skill_dashboard' %}">Modify Student</a></li>
                             <!-- <li><a href="{% url 'modify_skill_dashboard' %}">Delete Student</a></li> -->
                         </ul>
                     </li>
@@ -63,6 +62,7 @@
                     <li class="dropdown"><a href="/"><span>Skill Dashboard</span> <i class="bi bi-chevron-right"></i></a>
                         <ul>
                             <li><a href="{% url 'search_skill_dashboard' %}">Search Student</a></li>
+                            <li><a href="{% url 'modify_skill_dashboard' %}">Modify Student</a></li>
                         </ul>
                     </li>
 
@@ -81,7 +81,7 @@
                     </li> -->
 
 
-                    <li class="dropdown"><a href="/"><span>Add Info</span> <i class="bi bi-chevron-right"></i></a>
+                    <li class="dropdown"><a href="/"><span>Additional Info</span> <i class="bi bi-chevron-right"></i></a>
                         <ul>
                             <li><a href="{% url 'jobpositionview' %}">Add Job Name</a></li>
                             <li><a href="{% url 'job_position_dashboard' %}">Modify Job Name</a></li>

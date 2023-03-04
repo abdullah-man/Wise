@@ -147,7 +147,7 @@ class ShortCoursesTaken(models.Model):
 	shortcoursetakentype_choice = (
 	('Private','Private'),
 	('NAVTTC','NAVTTC'),
-	('PSDA','PSDA'),
+	('PSDF','PSDF'),
 	('TEVTA','TEVTA'),	
 	('Digiskill','Digiskill'),
 	('PIAIC','PIAIC'),
@@ -175,12 +175,21 @@ class JobPosition(models.Model):
 
 # model to add job for student
 class Job(models.Model):
+
+	# drop down choices for employment type
+	employment_type_choice = (
+	('Job','Job'),
+	('Freelancer','Freelancer'),
+	('Own Business','Own Business')
+	)
+
 	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE, blank=True)
 	position=models.ForeignKey(JobPosition, on_delete=models.SET_NULL, null=True, blank=True)
 	company = models.CharField(max_length=100, null=True, blank=True)
+	employment_type = models.CharField(max_length=100,choices=employment_type_choice, null=True, blank=True)
 	start_timings = models.TimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
 	end_timings=models.TimeField(auto_now=False,auto_now_add=False, null=True, blank=True)
-	salary = models.CharField(max_length=100, null=True, blank=True)
+	monthly_income = models.CharField(max_length=100, null=True, blank=True)
 	company_address=models.CharField(max_length=100, null=True, blank=True)
 	created_by = models.CharField(max_length=100, null=True, blank=True)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)	

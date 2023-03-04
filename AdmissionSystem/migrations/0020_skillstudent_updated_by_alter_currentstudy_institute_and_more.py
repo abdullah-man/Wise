@@ -78,7 +78,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='shortcoursestaken',
             name='course_type',
-            field=models.CharField(blank=True, choices=[('Private', 'Private'), ('NAVTTC', 'NAVTTC'), ('PSDA', 'PSDA'), ('TEVTA', 'TEVTA'), ('Digiskill', 'Digiskill'), ('PIAIC', 'PIAIC')], max_length=100, null=True),
+            field=models.CharField(blank=True, choices=[('Private', 'Private'), ('NAVTTC', 'NAVTTC'), ('PSDF', 'PSDF'), ('TEVTA', 'TEVTA'), ('Digiskill', 'Digiskill'), ('PIAIC', 'PIAIC')], max_length=100, null=True),
         ),
         migrations.AlterField(
             model_name='shortcoursestaken',
