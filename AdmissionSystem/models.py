@@ -116,7 +116,7 @@ class Contacted(models.Model):
 
 # model to add current study for student
 class CurrentStudy(models.Model):
-	student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE, blank=True)
+	student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE)
 	program = models.CharField(max_length=100, null=True, blank=True)
 	institute = models.CharField(max_length=100, null=True, blank=True)
 	semester = models.CharField(max_length=100, null=True, blank=True)
@@ -191,6 +191,8 @@ class Job(models.Model):
 	end_timings=models.TimeField(auto_now=False,auto_now_add=False, null=True, blank=True)
 	monthly_income = models.CharField(max_length=100, null=True, blank=True)
 	company_address=models.CharField(max_length=100, null=True, blank=True)
+	contact_person_at_company = models.CharField(max_length=100, null=True, blank=True)
+	contact_person_phone = models.CharField(max_length=15, null=True, blank=True)
 	created_by = models.CharField(max_length=100, null=True, blank=True)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)	
 	
@@ -199,7 +201,7 @@ class Job(models.Model):
 
 # model to add phone numbers for student
 class PhoneNo(models.Model):
-	student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE, blank=True)
+	student = models.OneToOneField(SkillStudent, on_delete=models.CASCADE)
 	personal_phone_no_1 = models.CharField(max_length=100, null=True, blank=True)	
 	personal_phone_no_2 = models.CharField(max_length=100, null=True, blank=True)	
 	father_phone_no = models.CharField(max_length=100, null=True, blank=True)	

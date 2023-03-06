@@ -180,9 +180,7 @@ def shortcoursetakenview(request, student_id):
 @login_required(login_url='loginpageview')
 def jobpositionview(request):
 	"""
-		On Get request, this view displays shortcoursename_form to be filled. 
-		On Post request, it adds a short course name. 
-		This created name is associated with shortcoursetaken objects.
+		
 	"""	
 	if request.method == "POST":
 		jobposition_form = JobPositionForm(request.POST)
@@ -370,7 +368,7 @@ def search_skill_dashboard(request):
 # 							UPDATE VIEWS
 # ----------------------------------------------------------------------------------------
 
-
+@login_required(login_url='loginpageview')
 def update_current_study(request, student_id):
 	"""
 		This view updates current study information of a skill student passed as argument (student_id).
@@ -725,3 +723,68 @@ def update_skill_detail_view(request, student_id):
 	}
 
 	return render(request,"update_skill_detail_view.html",context=context)
+
+
+
+# ---------------------------------------------------------------
+# ---------------------------------------------------------------
+
+@login_required(login_url='loginpageview')
+def document_type_view(request):
+	"""
+		On Get request, this view displays DocumentTypeForm to be filled.
+		On Post request, it adds document type information.
+	"""
+	if request.method == "POST":
+		document_type_form = DocumentTypeForm(request.POST)
+		if document_type_form.is_valid():
+			document_type_form.save()
+			messages.success(request, ('Document type was successfully added!'))
+			return redirect('homeview')
+		else:
+			messages.error(request, 'Error saving Document Type')
+
+	document_type_form = DocumentTypeForm()
+	return render(request=request, template_name="add_document_type.html", context={'document_type_form':document_type_form})
+
+
+
+@login_required(login_url='loginpageview')
+def update_document_type(request, document_type_id):
+	"""
+		This view updates information of a 'document type' student passed as argument (document_type_id).
+		On Get request, it fetches and displays the document-type data.
+		On Post request, it updates the information and redirects to home.
+		params:
+			document_type_id : The id of a document-type.
+	"""
+
+	document_type_object = DocumentType.objects.get(id=document_type_id) # get returns the only matching object
+	form = DocumentTypeForm(instance=document_type_object)
+
+	if request.method=='POST':
+		form=DocumentTypeForm(request.POST, instance=document_type_object)
+		if form.is_valid():
+			form.save()
+			return redirect('homeview')
+	
+	return render(request,'update_document_type.html',{'document_type_form':form})
+
+
+
+
+# job position dashboard to view job position
+@login_required(login_url='loginpageview')
+def document_type_dashboard(request):
+	document_type_objects = DocumentType.objects.all()
+	all_data = list()
+	for document_type in document_type_objects:
+		doc_type_data = list()	
+		doc_type_data.append(document_type.id)
+		doc_type_data.append(document_type.doc_type)
+		all_data.append(doc_type_data)
+
+	context = {'alldata': all_data}
+	return render(request,'document_type_dashboard.html',context=context)
+
+

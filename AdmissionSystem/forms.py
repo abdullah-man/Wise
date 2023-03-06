@@ -32,6 +32,9 @@ class AddSkillStudentForm(forms.Form):
 
 
 class SkillStudentForm(forms.ModelForm):
+    """
+        This form contains the PERSONAL INFORMATION as mentioned in SkillStudent model
+    """
     class Meta:
         model = SkillStudent
         fields = ('__all__')
@@ -70,11 +73,6 @@ class ContactedForm(forms.ModelForm):
     class Meta:
         model = Contacted
         fields = ('__all__')
-
-
-class PrequalificaitonForm(forms.ModelForm):
-    class Meta:
-        pass
 
 
 class StudentCustomSearchForm(forms.Form):
@@ -162,3 +160,79 @@ class StudentCustomSearchForm(forms.Form):
     program_of_interest = forms.CharField(label = 'Program', widget=forms.Select(choices=program_of_interest_choice), required=False)
     admission_status = forms.CharField(label='Admission Status', widget=forms.Select(choices=admissionstatus_choice), required=False)
     created_by = forms.CharField(label='Added by', widget=forms.Select(choices=created_by_choice) , required=False)
+
+
+# -----------------------------------------------------------
+# -----------------------------------------------------------
+
+class PrequalificaitonForm(forms.ModelForm):
+    class Meta:
+        model = PreQualification
+        fields = ('__all__')
+
+
+class DocumentTypeForm(forms.ModelForm):
+    class Meta:
+        model = DocumentType
+        fields = ('__all__')
+
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ('__all__')
+
+
+class StudentAvailabilityForm(forms.ModelForm):
+    class Meta:
+        model = StudentAvailability
+        fields = ('__all__')
+
+
+class CourseConductingBodyForm(forms.ModelForm):
+    class Meta:
+        model = CourseConductingBody
+        fields = ('__all__')
+
+
+class CourseNameForm(forms.ModelForm):
+    class Meta:
+        model = CourseName
+        fields = ('__all__')
+
+
+class CourseBatchNoForm(forms.ModelForm):
+    class Meta:
+        model = CourseBatchNo
+        fields = ('__all__')
+
+
+class CourseApplicationForm(forms.ModelForm):
+    class Meta:
+        model = CourseApplication
+        fields = ('__all__')
+
+
+class RollNoForm(forms.ModelForm):
+    class Meta:
+        model = RollNo
+        fields = ('__all__')
+
+
+class AlreadyRegisteredWithCourseBodyForm(forms.ModelForm):
+    class Meta:
+        model = AlreadyRegisteredWithCourseBody
+        fields = ('__all__')
+
+
+class ShiftNameForm(forms.ModelForm):
+    class Meta:
+        model = ShiftName
+        fields = ('__all__')
+
+class CourseSectionForm(forms.ModelForm):
+    class Meta:
+        model = CourseSection
+        fields = ('__all__')
+
+

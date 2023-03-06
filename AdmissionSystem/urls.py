@@ -21,7 +21,7 @@ urlpatterns = [
     path('add_query/<int:student_id>/',views.add_query,name='add_query'), 
     # view student details 
     path('skill_student_detail_view/<int:student_id>/',views.skill_student_detail_view,name='skill_student_detail_view'),
-
+    path('add_document_type/', views.document_type_view, name='document_type_view'),
 
 #----------------------- Delete Skill Students -----------------------
  
@@ -46,6 +46,7 @@ urlpatterns = [
     path('update_shortcourse_name/<int:id>/',views.update_shortcourse_name,name='update_shortcourse_name'),
     # update student details using modify 
     path('update_skill_detail_view/<int:student_id>/',views.update_skill_detail_view,name='update_skill_detail_view'),
+    path('update_document_type/<int:document_type_id>/',views.update_document_type,name='updatedocumenttype'),
 
 
 #-------------------------------------- Dashboard --------------------------------
@@ -53,6 +54,7 @@ urlpatterns = [
     path('job_position_dashboard/',views.job_position_dashboard,name='job_position_dashboard'),
     path('shortcourse_name_dashboard/',views.shortcourse_name_dashboard,name='shortcourse_name_dashboard'),
     path('search_skill_dashboard/',views.search_skill_dashboard,name='search_skill_dashboard'),
+    path('document_type_dashboard/',views.document_type_dashboard,name='documenttypedashboard')
 
 ]
 

@@ -78,3 +78,23 @@ def generate_context(skillstudentobjects):
 			all_std_data.append(std_data)
 
 		return all_std_data
+
+
+
+
+
+
+def check_duplicate():
+	"""
+		Checks if there is duplication of record in the DB.
+	"""
+	pass
+
+
+
+def record_not_found():
+	"""
+		Handles record not found
+	"""
+	pass
+
