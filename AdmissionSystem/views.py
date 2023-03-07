@@ -766,11 +766,9 @@ def update_document_type(request, document_type_id):
 		form=DocumentTypeForm(request.POST, instance=document_type_object)
 		if form.is_valid():
 			form.save()
-			return redirect('homeview')
+			return redirect('documenttypedashboard')
 	
 	return render(request,'update_document_type.html',{'document_type_form':form})
-
-
 
 
 # job position dashboard to view job position
