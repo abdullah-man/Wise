@@ -10,7 +10,7 @@ urlpatterns = [
     path('user_profile/', views.user_profile, name='user_profile'),
  
  
-#--------------------Main Views to Submit Student Data-----------------
+#-------------------- Main Views -----------------------------------------------
     # main
     path('',views.homeview,name='homeview'),
     path('addskillstudentview/',views.addskillstudentview,name='addskillstudentview'),
@@ -22,6 +22,7 @@ urlpatterns = [
     # view student details 
     path('skill_student_detail_view/<int:student_id>/',views.skill_student_detail_view,name='skill_student_detail_view'),
     path('add_document_type/', views.document_type_view, name='document_type_view'),
+    path('add_pre_qualification/', views.pre_qualification_view, name='prequalificationview'),
 
 #----------------------- Delete Skill Students -----------------------
  
@@ -29,7 +30,8 @@ urlpatterns = [
     path('delete_shortcoursetaken/<int:id>/<int:student_id>/',views.delete_shortcoursetaken,name='delete_shortcoursetaken'),
     path('delete_job/<int:job_id>/<int:student_id>/',views.delete_job,name='delete_job'),
     path('delete_job_position/<int:job_position_id>/',views.delete_job_position,name='delete_job_position'),
-
+    path('delete_document_type/<int:document_type_id>/',views.delete_document_type,name='delete_doctype'),
+    path('delete_pre_qualification/<int:pre_qualification_id>/',views.delete_pre_qualification,name='delete_prequalification'),
     # path('delete_query/<int:query_id>/<int:student_id>/',views.delete_query,name='delete_query'),
 
 
@@ -47,6 +49,7 @@ urlpatterns = [
     # update student details using modify 
     path('update_skill_detail_view/<int:student_id>/',views.update_skill_detail_view,name='update_skill_detail_view'),
     path('update_document_type/<int:document_type_id>/',views.update_document_type,name='updatedocumenttype'),
+    path('update_pre_qualification/<int:pre_qualification_id>/',views.update_pre_qualification,name='update_prequalification'),
 
 
 #-------------------------------------- Dashboard --------------------------------
@@ -54,7 +57,8 @@ urlpatterns = [
     path('job_position_dashboard/',views.job_position_dashboard,name='job_position_dashboard'),
     path('shortcourse_name_dashboard/',views.shortcourse_name_dashboard,name='shortcourse_name_dashboard'),
     path('search_skill_dashboard/',views.search_skill_dashboard,name='search_skill_dashboard'),
-    path('document_type_dashboard/',views.document_type_dashboard,name='documenttypedashboard')
+    path('document_type_dashboard/',views.document_type_dashboard,name='documenttypedashboard'),
+    path('pre_qualification_dashboard/',views.pre_qualification_dashboard,name='prequalificationdashboard')
 
 ]
 

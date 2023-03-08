@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
 from .view_helper_functions import generate_context
+from django.core.exceptions import *
  
 # ----------------------------------------------------------------------------------------
 # 							LOGIN / LOGOUT
@@ -131,12 +132,6 @@ def addskillstudentview(request):
 	skill_student_form = AddSkillStudentForm()
 	return render(request=request, template_name="add_skillstudent_new.html", context={'skill_student_form':skill_student_form})
 
-@login_required(login_url='loginpageview')
-def prequalificationview(request):
-	"""
-		Pre-Qualification
-	"""
-	pass
 
 
 @login_required(login_url='loginpageview')
@@ -727,7 +722,10 @@ def update_skill_detail_view(request, student_id):
 
 
 # ---------------------------------------------------------------
+# 			New Views
 # ---------------------------------------------------------------
+
+# Document Type -------------------
 
 @login_required(login_url='loginpageview')
 def document_type_view(request):
@@ -740,12 +738,28 @@ def document_type_view(request):
 		if document_type_form.is_valid():
 			document_type_form.save()
 			messages.success(request, ('Document type was successfully added!'))
-			return redirect('homeview')
+			return redirect('documenttypedashboard')
 		else:
 			messages.error(request, 'Error saving Document Type')
 
 	document_type_form = DocumentTypeForm()
 	return render(request=request, template_name="add_document_type.html", context={'document_type_form':document_type_form})
+
+
+
+# job position dashboard to view job position
+@login_required(login_url='loginpageview')
+def document_type_dashboard(request):
+	document_type_objects = DocumentType.objects.all()
+	all_data = list()
+	for document_type in document_type_objects:
+		doc_type_data = list()	
+		doc_type_data.append(document_type.id)
+		doc_type_data.append(document_type.doc_type)
+		all_data.append(doc_type_data)
+
+	context = {'alldata': all_data}
+	return render(request,'document_type_dashboard.html',context=context)
 
 
 
@@ -768,21 +782,127 @@ def update_document_type(request, document_type_id):
 			form.save()
 			return redirect('documenttypedashboard')
 	
-	return render(request,'update_document_type.html',{'document_type_form':form})
+	return render(request,'update_document_type.html',context= {'document_type_form':form, 'document_type_id': document_type_id})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_document_type(request, document_type_id):
+	"""
+		This view deletes a document type.
+		params:
+			document_type_id:	id of document type object which is to be deleted
+	"""
+
+	document_type_object=DocumentType.objects.get(id=document_type_id)
+
+	# deleting the object
+	try:
+		document_type_object.delete()
+		# redirecting back to the update view of the student
+		return redirect('documenttypedashboard')
+	except Exception:
+		messages.info(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('documenttypedashboard')
+
+# Document -------------------
+
+# Prequalification -------------------
+
+
+@login_required(login_url='loginpageview')
+def pre_qualification_view(request):
+	"""
+		On Get request, this view displays PrequalificaitonForm to be filled.
+		On Post request, it adds Pre-qualificaiton information to db.
+	"""
+	if request.method == "POST":
+		pre_qualification_form = PrequalificaitonForm(request.POST)
+		if pre_qualification_form.is_valid():
+			pre_qualification_form.save()
+			messages.success(request, 'Pre-qualification was successfully added!')
+			return redirect('prequalificationdashboard')
+		else:
+			messages.error(request, 'Error saving Pre-Qualification')
+			return redirect('prequalificationview')
+
+	pre_qualification_form = PrequalificaitonForm()
+	return render(request=request, template_name="add_pre_qualification.html", context={'pre_qualification_form':pre_qualification_form})
+
 
 
 # job position dashboard to view job position
 @login_required(login_url='loginpageview')
-def document_type_dashboard(request):
-	document_type_objects = DocumentType.objects.all()
+def pre_qualification_dashboard(request):
+	pre_qualification_objects = PreQualification.objects.all()
 	all_data = list()
-	for document_type in document_type_objects:
-		doc_type_data = list()	
-		doc_type_data.append(document_type.id)
-		doc_type_data.append(document_type.doc_type)
-		all_data.append(doc_type_data)
+	for prequal_object in pre_qualification_objects:
+		prequal_data = list()	
+		prequal_data.append(prequal_object.id)
+		prequal_data.append(prequal_object.pre_qualification_name)
+		all_data.append(prequal_data)
 
 	context = {'alldata': all_data}
-	return render(request,'document_type_dashboard.html',context=context)
+	return render(request,'pre_qualification_dashboard.html',context=context)
 
+
+@login_required(login_url='loginpageview')
+def update_pre_qualification(request, pre_qualification_id):
+	"""
+		This view updates information of a 'pre-qualification'.
+		On Get request, it fetches and displays the pre-qualification data.
+		On Post request, it updates the information and redirects to pre-qualification dashboard.
+		params:
+			pre_qualification_id : The id of a pre-qualification.
+	"""
+
+	pre_qualification_object = PreQualification.objects.get(id=pre_qualification_id) # get returns the only matching object
+	form = PrequalificaitonForm(instance=pre_qualification_object)
+
+	if request.method=='POST':
+		form=PrequalificaitonForm(request.POST, instance=pre_qualification_object)
+		if form.is_valid():
+			form.save()
+			return redirect('prequalificationdashboard')
+	
+	return render(request,'update_pre_qualification.html',context= {'pre_qualification_form':form, 'pre_qualification_id': pre_qualification_id})
+
+
+@login_required(login_url='loginpageview')
+def delete_pre_qualification(request, pre_qualification_id):
+	"""
+		This view deletes a pre-qualification object/entry.
+		params:
+			pre_qualification_id:	id of pre-qualification object which is to be deleted
+	"""
+
+	pre_qualification_object=PreQualification.objects.get(id=pre_qualification_id)
+
+	# deleting the object
+	try:
+		pre_qualification_object.delete()
+		# redirecting back to the update view of the student
+		return redirect('prequalificationdashboard')
+	except Exception:
+		messages.info(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('prequalificationdashboard')
+
+
+# Student Availability -------------------
+
+# Course Conducting Body -------------------
+
+# Course Name -------------------
+
+# Course Batch No -------------------
+
+# Course Applicaiton -------------------
+
+# Roll No -------------------
+
+# Already Registered With Course Conducting Body -------------------
+
+# Shift Name -------------------
+
+# Course Section -------------------
 
