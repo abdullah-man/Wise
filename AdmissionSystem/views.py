@@ -276,6 +276,7 @@ def skill_student_detail_view(request,student_id):
 	current_study_query_set=CurrentStudy.objects.filter(student_id=student_id)
 	job_form_query_set=Job.objects.filter(student_id=student_id)
 	short_course_taken_query_set=ShortCoursesTaken.objects.filter(student_id=student_id)
+	availability_query_set=StudentAvailability.objects.filter(student_id=student_id)
 
 	# only one object exists in these quesry sets. Thus, getting it.
 	skill_std = skill_std__query_set.first() 
@@ -285,15 +286,15 @@ def skill_student_detail_view(request,student_id):
 	# getting student ids from contacted table where they are mentioned under student_id field.
 	# As student_id is a foreign-key from here which is primary-key in skill student table
 	contacted_query_set=Contacted.objects.filter(student_id=student_id)
-
-	# .first() used because queryset contain only 1 obj so that's why .first() used
+	
 	context={
 		'skill_std_form':skill_std, 
 		'phone_no_form':phone_no,
 		'current_study_form':current_study,
 		'short_course_taken_form':short_course_taken_query_set,
 		'job_form':job_form_query_set,
-		'query_form':contacted_query_set
+		'query_form':contacted_query_set,
+		'availability_form':availability_query_set
 	}
 
 	return render(request,"skill_student_detail_view.html",context=context)
@@ -889,6 +890,27 @@ def delete_pre_qualification(request, pre_qualification_id):
 
 
 # Student Availability -------------------
+
+@login_required(login_url='loginpageview')
+def student_availability_view(request, student_id):
+	"""
+		On Get request, this view displays StudentAvailabilityForm to be filled.
+		On Post request, it adds Student-Availability information to db.
+	"""
+	if request.method == "POST":
+		student_availability_form = StudentAvailabilityForm(request.POST)
+		print(student_availability_form.errors) # checking for errors in the form
+		if student_availability_form.is_valid():
+			student_availability_form.save()
+			messages.success(request, 'Student-Availability was successfully added!')
+			return redirect('studentavailabilityview',student_id)
+		else:
+			messages.error(request, 'Error saving Student-Availability information.')
+			return redirect('studentavailabilityview',student_id)
+
+	student_availability_form = StudentAvailabilityForm()
+	return render(request=request, template_name="add_student_availability.html", context={'student_availability_form':student_availability_form, 'student_id':student_id})
+
 
 # Course Conducting Body -------------------
 

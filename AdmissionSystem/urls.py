@@ -23,6 +23,9 @@ urlpatterns = [
     path('skill_student_detail_view/<int:student_id>/',views.skill_student_detail_view,name='skill_student_detail_view'),
     path('add_document_type/', views.document_type_view, name='document_type_view'),
     path('add_pre_qualification/', views.pre_qualification_view, name='prequalificationview'),
+    path('add_student_availability/<int:student_id>/', views.student_availability_view, name='studentavailabilityview'),
+
+
 
 #----------------------- Delete Skill Students -----------------------
  
