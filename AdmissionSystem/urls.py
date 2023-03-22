@@ -53,7 +53,7 @@ urlpatterns = [
     path('update_skill_detail_view/<int:student_id>/',views.update_skill_detail_view,name='update_skill_detail_view'),
     path('update_document_type/<int:document_type_id>/',views.update_document_type,name='updatedocumenttype'),
     path('update_pre_qualification/<int:pre_qualification_id>/',views.update_pre_qualification,name='update_prequalification'),
-
+    path('update_student_availability/<int:availability_id>/', views.update_student_availability, name='update_studentavailability'),
 
 #-------------------------------------- Dashboard --------------------------------
 

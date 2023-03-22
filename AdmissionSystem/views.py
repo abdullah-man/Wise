@@ -424,7 +424,7 @@ def update_shortcourse_taken(request,id):
 		form=ShortCoursesTakenForm(request.POST,instance=shortcourse_object)
 		if form.is_valid():
 			form.save()
-			return redirect('update_skill_detail_view',shortcourse_object)
+			return redirect('update_skill_detail_view',student_id)
 	return render(request,'shortcoursetakenupdate.html',{'form':form,'id':id, 'student_id':student_id})
 
 
@@ -698,6 +698,7 @@ def update_skill_detail_view(request, student_id):
 	current_study_query_set=CurrentStudy.objects.filter(student_id=student_id)
 	job_form_query_set=Job.objects.filter(student_id=student_id)
 	short_course_taken_query_set=ShortCoursesTaken.objects.filter(student_id=student_id)
+	availability_query_set=StudentAvailability.objects.filter(student_id=student_id)
 
 	# only one object exists in these quesry sets. Thus, getting it.
 	skill_std = skill_std__query_set.first() 
@@ -715,7 +716,8 @@ def update_skill_detail_view(request, student_id):
 		'current_study_form':current_study,
 		'short_course_taken_form':short_course_taken_query_set,
 		'job_form':job_form_query_set,
-		'query_form':contacted_query_set
+		'query_form':contacted_query_set,
+		'availability_form':availability_query_set
 	}
 
 	return render(request,"update_skill_detail_view.html",context=context)
@@ -903,13 +905,43 @@ def student_availability_view(request, student_id):
 		if student_availability_form.is_valid():
 			student_availability_form.save()
 			messages.success(request, 'Student-Availability was successfully added!')
-			return redirect('studentavailabilityview',student_id)
+			return redirect('update_skill_detail_view',student_id)
 		else:
 			messages.error(request, 'Error saving Student-Availability information.')
-			return redirect('studentavailabilityview',student_id)
+			return redirect('update_skill_detail_view',student_id)
 
 	student_availability_form = StudentAvailabilityForm()
 	return render(request=request, template_name="add_student_availability.html", context={'student_availability_form':student_availability_form, 'student_id':student_id})
+
+
+
+@login_required(login_url='loginpageview')
+def update_student_availability(request, availability_id):
+	"""
+		This view updates information of a student's availability object.
+		On Get request, it fetches and displays the availability object data.
+		On Post request, it updates the information and redirects to the update_skill_detail_view_dashboard.
+		params:
+			availability_id : The id of the availability object that needs to be updated.
+	"""
+	availability_object = StudentAvailability.objects.get(id=availability_id) # get returns the only matching object
+	form = StudentAvailabilityForm(instance=availability_object)
+	
+	student_id = availability_object.student_id # getting the student id for redirect
+	print("-------- ", student_id, "-------------")
+
+	if request.method=='POST':
+		form=StudentAvailabilityForm(request.POST, instance=availability_object)
+		if form.is_valid():
+			form.save()
+			return redirect('update_skill_detail_view', student_id)
+	
+
+	return render(request,'update_student_availability.html',context= {'student_availability_form':form, 'availability_id': availability_id})
+
+
+
+
 
 
 # Course Conducting Body -------------------

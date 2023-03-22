@@ -266,11 +266,54 @@
                 <td width="2%">:</td>
                 <td>{{skill_std_form.updated_by}}</td>
               </tr>
-
             </table>
-
           </div>
         </div>
+        <div style="height: 26px"></div>
+                    <div class="card shadow-sm">
+                      <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0">
+                          <i class="far fa-clone pr-1"></i>Availability Details
+                        </h3>
+                        <div class="col-md-12 text-right">
+                          <input value="Add New" type="button"  onclick="location.href='{% url 'studentavailabilityview' skill_std_form.id %}'" class="btn btn-sm btn-success" >
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <table class="table table-bordered"> {% for availability in availability_form %} <tr>
+                            <th width="30%">
+                              <div class=" text-center">{{ forloop.counter }}</div>
+                            </th>
+                            <td width="2%">:</td>
+                            <td>  
+                              <div class="col-md-12 text-right">
+                                  <input value="Update" type="button"  onclick="location.href='{% url 'update_studentavailability' availability.id %}'" class="btn btn-sm btn-outline-success " >
+                              </div>
+                          </td>
+                          <tr>
+                            <th width="30%">Available From</th>
+                            <td width="2%">:</td>
+                            <td>{{ availability.available_from }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Available To</th>
+                            <td width="2%">:</td>
+                            <td>{{ availability.available_to }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Created By</th>
+                            <td width="2%">:</td>
+                            <td>{{ availability.created_by }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Updated By</th>
+                            <td width="2%">:</td>
+                            <td>{{ availability.updated_by }}</td>
+                          </tr>
+                          </tr> {% endfor %}
+                        </table>
+                      </div>
+                    </div>
         <div style="height: 26px"></div>
         <div class="card shadow-sm">
           <div class="card-header bg-transparent border-0">
