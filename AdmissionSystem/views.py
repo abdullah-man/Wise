@@ -941,16 +941,193 @@ def update_student_availability(request, availability_id):
 
 
 
-
-
-
 # Course Conducting Body -------------------
+
+@login_required(login_url='loginpageview')
+def course_conducting_body_view(request):
+	"""
+		On Get request, this view displays CourseConductingBodyForm to be filled.
+		On Post request, it adds Course-Conducting-Body's information to db.
+	"""
+
+	if request.method == "POST":
+		course_conducting_body_form = CourseConductingBodyForm(request.POST)
+		if course_conducting_body_form.is_valid():
+			course_conducting_body_form.save()
+			messages.success(request, 'Course Conducting Body was successfully added!')
+			return redirect('courseconductingbodydashboard')
+		else:
+			messages.error(request, 'Error saving Course Conducting Body information.')
+			return redirect('courseconductingbodydashboard')
+
+	course_conducting_body_form = CourseConductingBodyForm()
+	return render(request=request, template_name="add_course_conducting_body.html", context={'course_conducting_body_form':course_conducting_body_form})
+
+
+
+@login_required(login_url='loginpageview')
+def course_conducting_body_dashboard(request):
+	course_conducting_body_objects = CourseConductingBody.objects.all()
+	all_data = list()
+	for coursecondbody_object in course_conducting_body_objects:
+		coursecondbody_data = list()	
+		coursecondbody_data.append(coursecondbody_object.id)
+		coursecondbody_data.append(coursecondbody_object.course_conducting_body_name)
+		all_data.append(coursecondbody_data)
+
+	context = {'alldata': all_data}
+	return render(request,'course_conducting_body_dashboard.html',context=context)
+
+
+
+@login_required(login_url='loginpageview')
+def update_course_conducting_body(request, course_conducting_body_id):
+	"""
+		This view updates information of a 'course_conducting_body'.
+		On Get request, it fetches and displays the course-conducting-body data.
+		On Post request, it updates the information and redirects to pre-qualification dashboard.
+		params:
+			course_conducting_body_id : The id of a course-conducting-body.
+	"""
+
+	course_conducting_body_object = CourseConductingBody.objects.get(id=course_conducting_body_id) # get returns the only matching object
+	form = CourseConductingBodyForm(instance=course_conducting_body_object)
+
+	if request.method=='POST':
+		form=CourseConductingBodyForm(request.POST, instance=course_conducting_body_object)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Successfully updated Course Conducting Body information.')
+			return redirect('courseconductingbodydashboard')
+		else:
+			messages.error(request, 'Error updating Course Conducting Body information.')
+			return redirect('courseconductingbodydashboard')
+	
+	return render(request,'update_course_conducting_body.html',context= {'course_conducting_body_form':form, 'course_conducting_body_id': course_conducting_body_id})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_course_conducting_body(request, course_conducting_body_id):
+	"""
+		This view deletes a course_conducting_body object/entry.
+		params:
+			course_conducting_body_id:	id of course_conducting_body object which is to be deleted
+	"""
+
+	course_conducting_body_object=CourseConductingBody.objects.get(id=course_conducting_body_id)
+
+	# deleting the object
+	try:
+		course_conducting_body_object.delete()
+		# redirecting back to the update view of the student
+		return redirect('courseconductingbodydashboard')
+	except Exception:
+		messages.error(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('courseconductingbodydashboard')
+
+
 
 # Course Name -------------------
 
+
+@login_required(login_url='loginpageview')
+def course_name_view(request):
+	"""
+		On Get request, this view displays CourseNameForm to be filled.
+		On Post request, it adds Course-Name's information to db.
+	"""
+
+	if request.method == "POST":
+		course_name_form = CourseNameForm(request.POST)
+		if course_name_form.is_valid():
+			course_name_form.save()
+			messages.success(request, 'Course Name was successfully added!')
+			return redirect('coursenamedashboard')
+		else:
+			messages.error(request, 'Error saving Course Conducting Body information.')
+			return redirect('coursenamedashboard')
+
+	course_name_form = CourseNameForm()
+	return render(request=request, template_name="add_course_name.html", context={'course_name_form':course_name_form})
+
+
+
+@login_required(login_url='loginpageview')
+def course_name_dashboard(request):
+	course_name_objects = CourseName.objects.all()
+	all_data = list()
+	for course_object in course_name_objects:
+		course_data = list()	
+		course_data.append(course_object.id)
+		course_data.append(course_object.course_name)
+		all_data.append(course_data)
+
+	context = {'alldata': all_data}
+	return render(request,'course_name_dashboard.html',context=context)
+
+
+
+@login_required(login_url='loginpageview')
+def update_course_name(request, course_name_id):
+	"""
+		This view updates information of a 'Course-Name'.
+		On Get request, it fetches and displays the course-name data.
+		On Post request, it updates the information and redirects to course-name dashboard.
+		params:
+			course_name_id : The id of a course-name.
+	"""
+
+	course_name_object = CourseName.objects.get(id=course_name_id) # get returns the only matching object
+	form = CourseNameForm(instance=course_name_object)
+
+	if request.method=='POST':
+		form=CourseNameForm(request.POST, instance=course_name_object)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Successfully updated Course Name information.')
+			return redirect('coursenamedashboard')
+		else:
+			messages.error(request, 'Error updating Course Name information.')
+			return redirect('coursenamedashboard')
+	
+	return render(request,'update_course_name.html',context= {'course_name_form':form, 'course_name_id': course_name_id})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_course_name(request, course_name_id):
+	"""
+		This view deletes a course_name object/entry.
+		params:
+			course_name_id:	id of course_name object which is to be deleted
+	"""
+
+	course_name_object=CourseName.objects.get(id=course_name_id)
+
+	# deleting the object
+	try:
+		course_name_object.delete()
+		messages.success(request, 'Successfully deleted.')
+		# redirecting back to the update view of the student
+		return redirect('coursenamedashboard')
+	except Exception:
+		messages.error(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('coursenamedashboard')
+
+
+
 # Course Batch No -------------------
 
+
+
+
+
 # Course Applicaiton -------------------
+
+
+
+
 
 # Roll No -------------------
 

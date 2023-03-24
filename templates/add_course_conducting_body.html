@@ -13,13 +13,13 @@
         border-radius: 8%;
         box-shadow: rgba(0,0,0,0.8) 0 0 10px">
 
-        <h1 style="text-align: center;">Add Document Type</h1>
-        <p style="text-align: center;">You can add document type here</p>
+        <h1 style="text-align: center;">Add Course Conducting Body</h1>
+        <p style="text-align: center;">You can add course conducting body here</p>
         <div>
                 <form action="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <table class="table">
-                                {{ document_type_form }}
+                                {{ course_conducting_body_form }}
                         </table>
                         <input value="Add" type="submit" style="width: 50%;" class="btn btn-outline-primary mx-auto d-block">                            
                 </form>
