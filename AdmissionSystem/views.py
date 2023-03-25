@@ -874,7 +874,7 @@ def update_pre_qualification(request, pre_qualification_id):
 @login_required(login_url='loginpageview')
 def delete_pre_qualification(request, pre_qualification_id):
 	"""
-		This view deletes a pre-qualification object/entry.
+		This view deletes a pre-qualification object.
 		params:
 			pre_qualification_id:	id of pre-qualification object which is to be deleted
 	"""
@@ -1010,7 +1010,7 @@ def update_course_conducting_body(request, course_conducting_body_id):
 @login_required(login_url='loginpageview')
 def delete_course_conducting_body(request, course_conducting_body_id):
 	"""
-		This view deletes a course_conducting_body object/entry.
+		This view deletes a course_conducting_body object.
 		params:
 			course_conducting_body_id:	id of course_conducting_body object which is to be deleted
 	"""
@@ -1098,7 +1098,7 @@ def update_course_name(request, course_name_id):
 @login_required(login_url='loginpageview')
 def delete_course_name(request, course_name_id):
 	"""
-		This view deletes a course_name object/entry.
+		This view deletes a course_name object.
 		params:
 			course_name_id:	id of course_name object which is to be deleted
 	"""
@@ -1119,14 +1119,90 @@ def delete_course_name(request, course_name_id):
 
 # Course Batch No -------------------
 
+@login_required(login_url='loginpageview')
+def course_batch_no_view(request):
+	"""
+		On Get request, this view displays CourseBatchNoForm to be filled.
+		On Post request, it adds Course-Batch-No.'s information to db.
+	"""
+	if request.method == "POST":
+		course_batch_no_form = CourseBatchNoForm(request.POST)
+		if course_batch_no_form.is_valid():
+			course_batch_no_form.save()
+			messages.success(request, 'Course Batch No. was successfully added!')
+			return redirect('coursebatchnodashboard')
+		else:
+			messages.error(request, 'Error saving Course Batch No. information.')
+			return redirect('coursebatchnodashboard')
 
+	course_batch_no_form = CourseBatchNoForm()
+	return render(request=request, template_name="add_course_batch_num.html", context={'course_batch_no_form':course_batch_no_form})
+
+
+
+@login_required(login_url='loginpageview')
+def course_batch_no_dashboard(request):
+	course_batch_no_objects = CourseBatchNo.objects.all()
+	all_data = list()
+	for course_batch_object in course_batch_no_objects:
+		course_batch_data = list()	
+		course_batch_data.append(course_batch_object.id)
+		course_batch_data.append(course_batch_object.course_batch_no)
+		all_data.append(course_batch_data)
+
+	context = {'alldata': all_data}
+	return render(request,'course_batch_num_dashboard.html',context=context)
+
+
+
+@login_required(login_url='loginpageview')
+def update_course_batch_no(request, course_batch_id):
+	"""
+		This view updates information of a 'course_batch_number'.
+		On Get request, it fetches and displays the course_batch_number data.
+		On Post request, it updates the information and redirects to course-batch-number dashboard.
+		params:
+			course_batch_id : The id of a course-batch-no object.
+	"""
+	course_batch_object = CourseBatchNo.objects.get(id=course_batch_id) # get returns the only matching object
+	form = CourseBatchNoForm(instance=course_batch_object)
+
+	if request.method=='POST':
+		form=CourseBatchNoForm(request.POST, instance=course_batch_object)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Successfully updated Course Batch No. information.')
+			return redirect('coursebatchnodashboard')
+		else:
+			messages.error(request, 'Error updating Course Batch No. information.')
+			return redirect('coursebatchnodashboard')
+	
+	return render(request,'update_course_batch_num.html',context= {'course_batch_no_form':form, 'course_batch_id': course_batch_id})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_course_batch_no(request, course_batch_id):
+	"""
+		This view deletes a course_batch_num object.
+		params:
+			course_batch_id:	id of course_batch_num object which is to be deleted
+	"""
+	course_batch_object = CourseBatchNo.objects.get(id=course_batch_id)
+
+	# deleting the object
+	try:
+		course_batch_object.delete()
+		messages.success(request, 'Successfully deleted.')
+		# redirecting back to the update view of the student
+		return redirect('coursebatchnodashboard')
+	except Exception:
+		messages.error(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('coursebatchnodashboard')
 
 
 
 # Course Applicaiton -------------------
-
-
-
 
 
 # Roll No -------------------
@@ -1134,6 +1210,90 @@ def delete_course_name(request, course_name_id):
 # Already Registered With Course Conducting Body -------------------
 
 # Shift Name -------------------
+
+@login_required(login_url='loginpageview')
+def shift_name_view(request):
+	"""
+		On Get request, this view displays ShiftNameForm to be filled.
+		On Post request, it adds Shift-Name's information to db.
+	"""
+	if request.method == "POST":
+		shift_name_form = ShiftNameForm(request.POST)
+		if shift_name_form.is_valid():
+			shift_name_form.save()
+			messages.success(request, 'Shift Name was successfully added!')
+			return redirect('homeview')
+		else:
+			messages.error(request, 'Error saving Shift Name information.')
+			return redirect('homeview')
+
+	shift_name_form = ShiftNameForm()
+	return render(request=request, template_name="add_shift_name.html", context={'shift_name_form':shift_name_form})
+
+
+
+@login_required(login_url='loginpageview')
+def shift_name_dashboard(request):
+	shift_name_objects = ShiftName.objects.all()
+	all_data = list()
+	for shift_name_object in shift_name_objects:
+		shift_name_data = list()	
+		shift_name_data.append(shift_name_object.id)
+		shift_name_data.append(shift_name_object.shift_name)
+		all_data.append(shift_name_data)
+
+	context = {'alldata': all_data}
+	return render(request,'shift_name_dashboard.html',context=context)
+
+
+
+@login_required(login_url='loginpageview')
+def update_shift_name(request, shift_name_id):
+	"""
+		This view updates information of a 'shift-name'.
+		On Get request, it fetches and displays the shift-name data.
+		On Post request, it updates the information and redirects to shift-name dashboard.
+		params:
+			shift_name_id : The id of a shift-name object.
+	"""
+	shift_name_object = ShiftName.objects.get(id=shift_name_id) # get returns the only matching object
+	form = ShiftNameForm(instance=shift_name_object)
+
+	if request.method=='POST':
+		form=ShiftNameForm(request.POST, instance=shift_name_object)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Successfully updated Shift Name information.')
+			return redirect('shiftnamedashboard')
+		else:
+			messages.error(request, 'Error updating Shift Name information.')
+			return redirect('shiftnamedashboard')
+	
+	return render(request,'update_shift_name.html',context= {'shift_name_form':form, 'shift_name_id': shift_name_id})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_shift_name(request, shift_name_id):
+	"""
+		This view deletes a shift-name object.
+		params:
+			shift_name_id:	id of shift-name object which is to be deleted
+	"""
+	shift_name_object = ShiftName.objects.get(id=shift_name_id)
+
+	# deleting the object
+	try:
+		shift_name_object.delete()
+		messages.success(request, 'Successfully deleted.')
+		# redirecting back to the update view of the student
+		return redirect('shiftnamedashboard')
+	except Exception:
+		messages.error(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('shiftnamedashboard')
+
+
+
 
 # Course Section -------------------
 

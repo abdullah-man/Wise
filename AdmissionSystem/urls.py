@@ -26,6 +26,9 @@ urlpatterns = [
     path('add_student_availability/<int:student_id>/', views.student_availability_view, name='studentavailabilityview'),
     path('add_course_conducting_body/', views.course_conducting_body_view, name='courseconductingbodyview'),
     path('add_course_name/', views.course_name_view, name='coursenameview'),
+    path('add_course_batch_no/', views.course_batch_no_view, name='coursebatchnoview'),
+    path('add_shift_name/', views.shift_name_view, name='shiftnameview'),
+
 
 
 #----------------------- Delete Skill Students -----------------------
@@ -39,6 +42,8 @@ urlpatterns = [
     # path('delete_query/<int:query_id>/<int:student_id>/',views.delete_query,name='delete_query'),
     path('delete_course_conducting_body/<int:course_conducting_body_id>/',views.delete_course_conducting_body,name='delete_courseconductingbody'),
     path('delete_course_name/<int:course_name_id>/',views.delete_course_name,name='delete_coursename'),
+    path('delete_course_batch_no/<int:course_batch_id>/',views.delete_course_batch_no,name='delete_coursebatchno'),
+    path('delete_shift_name/<int:shift_name_id>/',views.delete_shift_name,name='delete_shiftname'),
 
 
 #----------------------------- Update --------------------------------
@@ -59,6 +64,8 @@ urlpatterns = [
     path('update_student_availability/<int:availability_id>/', views.update_student_availability, name='update_studentavailability'),
     path('update_course_conducting_body/<int:course_conducting_body_id>/',views.update_course_conducting_body,name='updatecourseconductingbody'),
     path('update_course_name/<int:course_name_id>/',views.update_course_name,name='updatecoursename'),
+    path('update_course_batch_no/<int:course_batch_id>/',views.update_course_batch_no,name='updatecoursebatchno'),
+    path('update_shift_name/<int:shift_name_id>/',views.update_shift_name,name='updateshiftname'),
 
 
 
@@ -71,6 +78,8 @@ urlpatterns = [
     path('pre_qualification_dashboard/',views.pre_qualification_dashboard,name='prequalificationdashboard'),
     path('course_conducting_body_dashboard/',views.course_conducting_body_dashboard,name='courseconductingbodydashboard'),
     path('course_name_dashboard/',views.course_name_dashboard,name='coursenamedashboard'),
+    path('course_batch_no_dashboard/',views.course_batch_no_dashboard,name='coursebatchnodashboard'),
+    path('shift_name_dashboard/',views.shift_name_dashboard,name='shiftnamedashboard'),
 
 
 ]

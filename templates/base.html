@@ -55,7 +55,6 @@
                      <li class="dropdown"><a href="/"><span>Skill Student</span> <i class="bi bi-chevron-right"></i></a>
                         <ul>
                             <li><a href="{% url 'addskillstudentview' %}">Add Student</a></li>
-                            <!-- <li><a href="{% url 'modify_skill_dashboard' %}">Delete Student</a></li> -->
                         </ul>
                     </li>
 
@@ -66,38 +65,34 @@
                         </ul>
                     </li>
 
-                   <!--   <li class="dropdown"><a href="#"><span>Conventional Student</span> <i class="bi bi-chevron-right"></i></a>
-                        <ul>
-                            <li><a href=""">Add Student</a></li>
-                            <li><a href="/">Modify Student</a></li>
-                            <li><a href="/">Delete Student</a></li>
-                        </ul>
-                    </li>
-                     
-                    <li class="dropdown"><a href="/"><span>Conventional Dashboard</span> <i class="bi bi-chevron-right"></i></a>
-                        <ul>
-                            <li><a href="#">Search Student</a></li>
-                        </ul>
-                    </li> -->
-
-
-                    <li class="dropdown"><a href="/"><span>Additional Info</span> <i class="bi bi-chevron-right"></i></a>
+                    <li class="dropdown"><a href="/"><span>Add Info</span> <i class="bi bi-chevron-right"></i></a>
                         <ul>
                             <li><a href="{% url 'jobpositionview' %}">Add Job Name</a></li>
-                            <li><a href="{% url 'job_position_dashboard' %}">Modify Job Name</a></li>
                             <li><a href="{% url 'shortcoursenameview' %}">Add Short Course Name</a></li>
-                            <li><a href="{% url 'shortcourse_name_dashboard' %}">Modify Short Course Name</a></li>
                             <li><a href="{% url 'document_type_view' %}">Add Document Type</a></li>
-                            <li><a href="{% url 'documenttypedashboard' %}">Modify Document Type</a></li>
                             <li><a href="{% url 'prequalificationview' %}">Add Pre-Qualification</a></li>
-                            <li><a href="{% url 'prequalificationdashboard' %}">Modify Pre-Qualification</a></li>
                             <li><a href="{% url 'courseconductingbodyview' %}">Add Course Cond Body</a></li>
-                            <li><a href="{% url 'courseconductingbodydashboard' %}">Modify Course Cond Body</a></li>
                             <li><a href="{% url 'coursenameview' %}">Add Course Name</a></li>
-                            <li><a href="{% url 'coursenamedashboard' %}">Modify Course Name</a></li>
+                            <li><a href="{% url 'coursebatchnoview' %}">Add Course Batch</a></li>
+                            <li><a href="{% url 'shiftnameview' %}">Add Shift Name</a></li>
+                            <li><a href="{% url 'coursenameview' %}">Add Course Section</a></li>
                         </ul>
                     </li>
- 
+
+                    <li class="dropdown"><a href="/"><span>Modify Info</span> <i class="bi bi-chevron-right"></i></a>
+                        <ul>
+                            <li><a href="{% url 'job_position_dashboard' %}">Modify Job Name</a></li>
+                            <li><a href="{% url 'shortcourse_name_dashboard' %}">Modify Short Course Name</a></li>
+                            <li><a href="{% url 'documenttypedashboard' %}">Modify Document Type</a></li>
+                            <li><a href="{% url 'prequalificationdashboard' %}">Modify Pre-Qualification</a></li>
+                            <li><a href="{% url 'courseconductingbodydashboard' %}">Modify Course Cond Body</a></li>
+                            <li><a href="{% url 'coursenamedashboard' %}">Modify Course Name</a></li>
+                            <li><a href="{% url 'coursebatchnodashboard' %}">Modify Course Batch</a></li>
+                            <li><a href="{% url 'shiftnamedashboard' %}">Modify Shift Name</a></li>
+                            <li><a href="{% url 'coursenameview' %}">Modify Course Section</a></li>
+                        </ul>
+                    </li>
+
                      <li class="dropdown"><a href="#"><span>Welcome {{ user.get_username }} !</span> <i class="bi bi-chevron-right"></i></a>
                         <ul>
                             <li><a href="{% url 'user_profile' %}">{{ user.get_username }}'s Profile</a></li>
