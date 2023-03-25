@@ -1294,6 +1294,90 @@ def delete_shift_name(request, shift_name_id):
 
 
 
-
 # Course Section -------------------
+
+
+@login_required(login_url='loginpageview')
+def course_section_view(request):
+	"""
+		On Get request, this view displays CourseSectionForm to be filled.
+		On Post request, it adds Course-Section's information to db.
+	"""
+	if request.method == "POST":
+		course_section_form = CourseSectionForm(request.POST)
+		if course_section_form.is_valid():
+			course_section_form.save()
+			messages.success(request, 'Course-Section was successfully added!')
+			return redirect('homeview')
+		else:
+			messages.error(request, 'Error saving Course-Section information.')
+			return redirect('homeview')
+
+	course_section_form = CourseSectionForm()
+	return render(request=request, template_name="add_course_section.html", context={'course_section_form':course_section_form})
+
+
+
+@login_required(login_url='loginpageview')
+def course_section_dashboard(request):
+	course_section_objects = CourseSection.objects.all()
+	all_data = list()
+	for course_section_object in course_section_objects:
+		course_section_data = list()	
+		course_section_data.append(course_section_object.id)
+		course_section_data.append(course_section_object.course_section)
+		all_data.append(course_section_data)
+
+	context = {'alldata': all_data}
+	return render(request,'course_section_dashboard.html',context=context)
+
+
+
+@login_required(login_url='loginpageview')
+def update_course_section(request, course_section_id):
+	"""
+		This view updates information of a 'course-section'.
+		On Get request, it fetches and displays the course-section data.
+		On Post request, it updates the information and redirects to course-section dashboard.
+		params:
+			course_section_id : The id of a course-section object.
+	"""
+	course_section_object = CourseSection.objects.get(id=course_section_id) # get returns the only matching object
+	form = CourseSectionForm(instance=course_section_object)
+
+	if request.method=='POST':
+		form=CourseSectionForm(request.POST, instance=course_section_object)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Successfully updated Course Section information.')
+			return redirect('coursesectiondashboard')
+		else:
+			messages.error(request, 'Error updating Course Section information.')
+			return redirect('coursesectiondashboard')
+	
+	return render(request,'update_course_section.html',context= {'course_section_form':form, 'course_section_id': course_section_id})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_course_section(request, course_section_id):
+	"""
+		This view deletes a course-section object.
+		params:
+			course_section_id:	id of course-section object which is to be deleted
+	"""
+	
+	course_section_object = CourseSection.objects.get(id=course_section_id)
+
+	# deleting the object
+	try:
+		course_section_object.delete()
+		messages.success(request, 'Successfully deleted.')
+		# redirecting back to the update view of the student
+		return redirect('coursesectiondashboard')
+	except Exception:
+		messages.error(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('coursesectiondashboard')
+
+
 

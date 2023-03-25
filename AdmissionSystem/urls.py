@@ -28,6 +28,7 @@ urlpatterns = [
     path('add_course_name/', views.course_name_view, name='coursenameview'),
     path('add_course_batch_no/', views.course_batch_no_view, name='coursebatchnoview'),
     path('add_shift_name/', views.shift_name_view, name='shiftnameview'),
+    path('add_course_section/', views.course_section_view, name='coursesectionview'),
 
 
 
@@ -44,7 +45,7 @@ urlpatterns = [
     path('delete_course_name/<int:course_name_id>/',views.delete_course_name,name='delete_coursename'),
     path('delete_course_batch_no/<int:course_batch_id>/',views.delete_course_batch_no,name='delete_coursebatchno'),
     path('delete_shift_name/<int:shift_name_id>/',views.delete_shift_name,name='delete_shiftname'),
-
+    path('delete_course_section/<int:course_section_id>/',views.delete_course_section,name='delete_coursesection'),
 
 #----------------------------- Update --------------------------------
 
@@ -66,6 +67,7 @@ urlpatterns = [
     path('update_course_name/<int:course_name_id>/',views.update_course_name,name='updatecoursename'),
     path('update_course_batch_no/<int:course_batch_id>/',views.update_course_batch_no,name='updatecoursebatchno'),
     path('update_shift_name/<int:shift_name_id>/',views.update_shift_name,name='updateshiftname'),
+    path('update_course_section/<int:course_section_id>/',views.update_course_section,name='updatecoursesection'),
 
 
 
@@ -80,6 +82,7 @@ urlpatterns = [
     path('course_name_dashboard/',views.course_name_dashboard,name='coursenamedashboard'),
     path('course_batch_no_dashboard/',views.course_batch_no_dashboard,name='coursebatchnodashboard'),
     path('shift_name_dashboard/',views.shift_name_dashboard,name='shiftnamedashboard'),
+    path('course_section_dashboard/',views.course_section_dashboard,name='coursesectiondashboard'),
 
 
 ]
