@@ -29,7 +29,7 @@ urlpatterns = [
     path('add_course_batch_no/', views.course_batch_no_view, name='coursebatchnoview'),
     path('add_shift_name/', views.shift_name_view, name='shiftnameview'),
     path('add_course_section/', views.course_section_view, name='coursesectionview'),
-
+    path('add_already_registered_with_course_body/<int:student_id>/', views.already_regitered_with_course_body_view, name='alreadyregisteredwithcoursebodyview'),
 
 
 #----------------------- Delete Skill Students -----------------------
@@ -46,6 +46,8 @@ urlpatterns = [
     path('delete_course_batch_no/<int:course_batch_id>/',views.delete_course_batch_no,name='delete_coursebatchno'),
     path('delete_shift_name/<int:shift_name_id>/',views.delete_shift_name,name='delete_shiftname'),
     path('delete_course_section/<int:course_section_id>/',views.delete_course_section,name='delete_coursesection'),
+    path('delete_already_registered_with_course_body/<int:already_registered_id>/',views.delete_already_regitered_with_course_body,name='delete_alreadyregisteredwithcoursebody'),
+
 
 #----------------------------- Update --------------------------------
 
@@ -68,6 +70,7 @@ urlpatterns = [
     path('update_course_batch_no/<int:course_batch_id>/',views.update_course_batch_no,name='updatecoursebatchno'),
     path('update_shift_name/<int:shift_name_id>/',views.update_shift_name,name='updateshiftname'),
     path('update_course_section/<int:course_section_id>/',views.update_course_section,name='updatecoursesection'),
+    path('update_already_registered_with_course_body/<int:already_registered_id>/',views.update_already_regitered_with_course_body,name='updatealreadyregisteredwithcoursebody'),
 
 
 

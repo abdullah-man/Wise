@@ -277,6 +277,7 @@ def skill_student_detail_view(request,student_id):
 	job_form_query_set=Job.objects.filter(student_id=student_id)
 	short_course_taken_query_set=ShortCoursesTaken.objects.filter(student_id=student_id)
 	availability_query_set=StudentAvailability.objects.filter(student_id=student_id)
+	already_registered_query_set=AlreadyRegisteredWithCourseBody.objects.filter(student_id=student_id)
 
 	# only one object exists in these quesry sets. Thus, getting it.
 	skill_std = skill_std__query_set.first() 
@@ -294,7 +295,8 @@ def skill_student_detail_view(request,student_id):
 		'short_course_taken_form':short_course_taken_query_set,
 		'job_form':job_form_query_set,
 		'query_form':contacted_query_set,
-		'availability_form':availability_query_set
+		'availability_form':availability_query_set,
+		'already_registered_form':already_registered_query_set
 	}
 
 	return render(request,"skill_student_detail_view.html",context=context)
@@ -699,6 +701,7 @@ def update_skill_detail_view(request, student_id):
 	job_form_query_set=Job.objects.filter(student_id=student_id)
 	short_course_taken_query_set=ShortCoursesTaken.objects.filter(student_id=student_id)
 	availability_query_set=StudentAvailability.objects.filter(student_id=student_id)
+	already_applied_query_set=AlreadyRegisteredWithCourseBody.objects.filter(student_id=student_id)
 
 	# only one object exists in these quesry sets. Thus, getting it.
 	skill_std = skill_std__query_set.first() 
@@ -717,7 +720,8 @@ def update_skill_detail_view(request, student_id):
 		'short_course_taken_form':short_course_taken_query_set,
 		'job_form':job_form_query_set,
 		'query_form':contacted_query_set,
-		'availability_form':availability_query_set
+		'availability_form':availability_query_set,
+		'already_registered_form':already_applied_query_set
 	}
 
 	return render(request,"update_skill_detail_view.html",context=context)
@@ -1208,6 +1212,80 @@ def delete_course_batch_no(request, course_batch_id):
 # Roll No -------------------
 
 # Already Registered With Course Conducting Body -------------------
+
+@login_required(login_url='loginpageview')
+def already_regitered_with_course_body_view(request, student_id):
+	"""
+		On Get request, this view displays AlreadyRegisteredWithCourseBodyForm to be filled.
+		On Post request, it adds Already-Registered's information to db.
+	"""
+	if request.method == "POST":
+		already_registered_form = AlreadyRegisteredWithCourseBodyForm(request.POST)
+		if already_registered_form.is_valid():
+			already_registered_form.save()
+			messages.success(request, 'Already Regitered information was successfully added!')
+			return redirect('update_skill_detail_view', student_id)
+		else:
+			messages.error(request, 'Error saving Already Regitered information.')
+			return redirect('update_skill_detail_view', student_id)
+
+	already_registered_form = AlreadyRegisteredWithCourseBodyForm()
+	return render(request=request, template_name="add_already_registered.html", context={'already_registered_form':already_registered_form, 'student_id':student_id})
+
+
+
+@login_required(login_url='loginpageview')
+def update_already_regitered_with_course_body(request, already_registered_id):
+	"""
+		This view updates information of a 'Already-Registered'.
+		On Get request, it fetches and displays the Already-Registered data.
+		On Post request, it updates the information and redirects to update_skill_detail_view : the detailed view of a skill student.
+		params:
+			already_registered_id : The id of a Already-Registered object.
+	"""
+	already_registered_object = AlreadyRegisteredWithCourseBody.objects.get(id=already_registered_id) # get returns the only matching object
+	form = AlreadyRegisteredWithCourseBodyForm(instance=already_registered_object)
+	
+	# id of student's whose already_reistered_object is this
+	student_id = already_registered_object.student_id
+
+
+	if request.method=='POST':
+		form=AlreadyRegisteredWithCourseBodyForm(request.POST, instance=already_registered_object)
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Successfully updated Already Registered information.')
+			return redirect('update_skill_detail_view', student_id)
+		else:
+			messages.error(request, 'Error updating Already Registered information.')
+			return redirect('update_skill_detail_view', student_id)
+	
+	return render(request,'update_already_registered.html',context= {'already_registered_form':form, 'already_registered_id': already_registered_id})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_already_regitered_with_course_body(request, already_registered_id):
+	"""
+		This view deletes a Already-Registered object.
+		params:
+			already_registered_id:	id of Already-Registered object which is to be deleted
+	"""
+	already_registered_object = AlreadyRegisteredWithCourseBody.objects.get(id=already_registered_id)
+	# id of student whose object is this
+	student_id = already_registered_object.student_id
+
+	# deleting the object
+	try:
+		already_registered_object.delete()
+		messages.success(request, 'Successfully deleted.')
+		# redirecting back to the update view of the student
+		return redirect('update_skill_detail_view', student_id)
+	except Exception:
+		messages.error(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('update_skill_detail_view', student_id)
+
+
 
 # Shift Name -------------------
 

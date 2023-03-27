@@ -56,49 +56,43 @@
                     </div>
                   </div>
                   <div class="col-lg-8">
+                    
+                    <div style="height: 26px"></div>
                     <div class="card shadow-sm">
                       <div class="card-header bg-transparent border-0">
                         <h3 class="mb-0">
-                          <i class="far fa-clone pr-1"></i>Summary
+                          <i class="far fa-clone pr-1"></i>Already Registered Details
                         </h3>
+                        <div class="col-md-12 text-right">
+                          <input value="Add New" type="button" onclick="location.href='{% url 'alreadyregisteredwithcoursebodyview' skill_std_form.id %}'" class="btn btn-sm btn-success">
+                        </div>
                       </div>
                       <div class="card-body pt-0">
-                        <table class="table table-bordered">
-                          <tr>
-                            <th width="30%">Date Applied </th>
+                        <table class="table table-bordered"> {% for alreadY_registered_object in already_registered_form %} <tr>
+                            <th width="30%">
+                              <div class=" text-center">{{ forloop.counter }}</div>
+                            </th>
                             <td width="2%">:</td>
-                            <td>{{skill_std_form.date_applied}}</td>
+                            <td>
+                              <div class="col-md-12 text-right">
+                              <input value="Update" type="button" onclick="location.href='{% url 'updatealreadyregisteredwithcoursebody' alreadY_registered_object.id %}'" class="btn btn-sm btn-outline-success ">
+                            </div>
+                          </td>
+                          <tr>
+                            <th width="30%">Already registered with</th>
+                            <td width="2%">:</td>
+                            <td>{{ alreadY_registered_object.course_body }}</td>
+                          </tr>
+                            <th width="30%">Created By</th>
+                            <td width="2%">:</td>
+                            <td>{{ alreadY_registered_object.created_by }}</td>
                           </tr>
                           <tr>
-                            <th width="30%">Program of Interest </th>
+                            <th width="30%">Updated By</th>
                             <td width="2%">:</td>
-                            <td>{{skill_std_form.program_of_interest}}</td>
+                            <td>{{ alreadY_registered_object.updated_by }}</td>
                           </tr>
-                          <tr>
-                            <th width="30%">Shift</th>
-                            <td width="2%">:</td>
-                            <td>{{skill_std_form.shift}}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Admission Status</th>
-                            <td width="2%">:</td>
-                            <td>{{skill_std_form.admission_status}}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Information Source</th>
-                            <td width="2%">:</td>
-                            <td>{{skill_std_form.information_source}}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Form Created By</th>
-                            <td width="2%">:</td>
-                            <td>{{skill_std_form.created_by}}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Form Updated By</th>
-                            <td width="2%">:</td>
-                            <td>{{skill_std_form.updated_by}}</td>
-                          </tr>
+                          </tr> {% endfor %}
                         </table>
                       </div>
                     </div>
