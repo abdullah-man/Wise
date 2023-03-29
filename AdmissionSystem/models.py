@@ -248,12 +248,12 @@ class Document(models.Model):
 	"""
 	
 	def student_directory_path(instance, filename):
-		return 'static/admissionsystem/student_images/{0}/{1}'.format(instance.student, filename)
+		return 'static/admissionsystem/student_documents/{0}/{1}'.format(instance.student, filename)
 
 	student = models.ForeignKey(SkillStudent, on_delete=models.CASCADE)
 	doc_type = models.ForeignKey(DocumentType, on_delete=models.SET_DEFAULT, default='DOC')
 	doc_file = models.FileField(upload_to=student_directory_path)
-	original_held = models.BooleanField(default=None)
+	original_held = models.BooleanField(default=False)
 	created_by = models.CharField(max_length=100)
 	updated_by = models.CharField(max_length=100, null=True, blank=True)
 
