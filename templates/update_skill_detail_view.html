@@ -44,59 +44,24 @@
                         </p>
                         <p class="mb-0">
                           <strong class="pr-1">Form No:</strong>{{skill_std_form.form_no}}
-                        </p> {% if skill_std_form.cnic %} <p class="mb-0">
+                        </p> 
+                        {% if skill_std_form.cnic %} 
+                        <p class="mb-0">
                           <strong class="pr-1">Cnic No:</strong>{{skill_std_form.cnic}}
-                        </p> {% else %} <p class="mb-0">
+                        </p> 
+                        {% else %} 
+                        <p class="mb-0">
                           <strong class="pr-1">B-Form No:</strong>{{skill_std_form.b_form}}
-                        </p> {% endif %} <br>
-                        <!-- old delete button without confirmation -->
-                        <!-- <input value="Delete" type="button" style="width: 50%;" onclick="location.href='{% url 'delete_skill_student' skill_std_form.id %}'" class="btn btn-lg btn-outline-danger mx-auto d-block" > -->
+                        </p> 
+                        {% endif %} 
+                        <br>
+                        <!-- Delete Button -->
                         <input value="Delete" type="button" style="width: 50%;" onclick="confirmdelete()" class="btn btn-lg btn-outline-danger mx-auto d-block">
                       </div>
                     </div>
                   </div>
                   <div class="col-lg-8">
                     
-                    <div style="height: 26px"></div>
-                    <div class="card shadow-sm">
-                      <div class="card-header bg-transparent border-0">
-                        <h3 class="mb-0">
-                          <i class="far fa-clone pr-1"></i>Already Registered Details
-                        </h3>
-                        <div class="col-md-12 text-right">
-                          <input value="Add New" type="button" onclick="location.href='{% url 'alreadyregisteredwithcoursebodyview' skill_std_form.id %}'" class="btn btn-sm btn-success">
-                        </div>
-                      </div>
-                      <div class="card-body pt-0">
-                        <table class="table table-bordered"> {% for alreadY_registered_object in already_registered_form %} <tr>
-                            <th width="30%">
-                              <div class=" text-center">{{ forloop.counter }}</div>
-                            </th>
-                            <td width="2%">:</td>
-                            <td>
-                              <div class="col-md-12 text-right">
-                              <input value="Update" type="button" onclick="location.href='{% url 'updatealreadyregisteredwithcoursebody' alreadY_registered_object.id %}'" class="btn btn-sm btn-outline-success ">
-                            </div>
-                          </td>
-                          <tr>
-                            <th width="30%">Already registered with</th>
-                            <td width="2%">:</td>
-                            <td>{{ alreadY_registered_object.course_body }}</td>
-                          </tr>
-                            <th width="30%">Created By</th>
-                            <td width="2%">:</td>
-                            <td>{{ alreadY_registered_object.created_by }}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Updated By</th>
-                            <td width="2%">:</td>
-                            <td>{{ alreadY_registered_object.updated_by }}</td>
-                          </tr>
-                          </tr> {% endfor %}
-                        </table>
-                      </div>
-                    </div>
-                    <div style="height: 26px"></div>
                     <div class="card shadow-sm">
                       <div class="card-header bg-transparent border-0">
                         <h3 class="mb-0">
@@ -160,15 +125,68 @@
                             <th width="22%">Laptop at Home</th>
                             <td width="2%">:</td>
                             <td>{{skill_std_form.laptop}}</td>
-                            <th width="22%">Area</th>
+                            <th width="23%">Pre Qualification</th>
                             <td width="2%">:</td>
-                            <td>{{skill_std_form.area}}</td>
+                            <td>{{skill_std_form.pre_qualification}}</td>
                           </tr>
                           <tr>
                             <th width="22%">Address</th>
                             <td width="2%">:</td>
                             <td>{{skill_std_form.address}}</td>
+                            <th width="22%">Area</th>
+                            <td width="2%">:</td>
+                            <td>{{skill_std_form.area}}</td>
                           </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div style="height: 26px"></div>
+                    <div class="card shadow-sm">
+                      <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0">
+                          <i class="far fa-clone pr-1"></i>Contact Information
+                        </h3>
+                        <div class="col-md-12 text-right">
+                          <input value="Update" type="button" onclick="location.href='{% url 'update_phone_no' skill_std_form.id %}'" class="btn btn-sm btn-outline-success">
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <table class="table table-bordered">
+                          <tr>
+                            <th width="30%">Personal Phone No 1</th>
+                            <td width="2%">:</td>
+                            <td>{{ phone_no_form.personal_phone_no_1 }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Personal Phone No 2</th>
+                            <td width="2%">:</td>
+                            <td>{{ phone_no_form.personal_phone_no_2 }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Father Phone No</th>
+                            <td width="2%">:</td>
+                            <td>{{ phone_no_form.father_phone_no }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Mother Phone No</th>
+                            <td width="2%">:</td>
+                            <td>{{ phone_no_form.mother_phone_no }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Emergency Phone No</th>
+                            <td width="2%">:</td>
+                            <td>{{ phone_no_form.emergency_phone_no }}</td>
+                          </tr>
+                          <!-- <tr>
+                            <th width="30%">Created By</th>
+                            <td width="2%">:</td>
+                            <td>{{ phone_no_form.created_by }}</td>
+                          </tr>
+                          <tr>
+                            <th width="30%">Updated By</th>
+                            <td width="2%">:</td>
+                            <td>{{ phone_no_form.updated_by }}</td>
+                          </tr> -->
                         </table>
                       </div>
                     </div>
@@ -203,7 +221,7 @@
                             <td width="2%">:</td>
                             <td>{{ availability.available_to }}</td>
                           </tr>
-                          <tr>
+                          <!-- <tr>
                             <th width="30%">Created By</th>
                             <td width="2%">:</td>
                             <td>{{ availability.created_by }}</td>
@@ -212,7 +230,7 @@
                             <th width="30%">Updated By</th>
                             <td width="2%">:</td>
                             <td>{{ availability.updated_by }}</td>
-                          </tr>
+                          </tr> -->
                           </tr> {% endfor %}
                         </table>
                       </div>
@@ -264,7 +282,7 @@
                             <td width="2%">:</td>
                             <td>{{current_study_form.CGPA}}</td>
                           </tr>
-                          <tr>
+                          <!-- <tr>
                             <th width="30%">Created By</th>
                             <td width="2%">:</td>
                             <td>{{ current_study_form.created_by }}</td>
@@ -273,7 +291,7 @@
                             <th width="30%">Updated By</th>
                             <td width="2%">:</td>
                             <td>{{ current_study_form.updated_by }}</td>
-                          </tr>
+                          </tr> -->
                         </table>
                       </div>
                     </div>
@@ -323,7 +341,7 @@
                             <td width="2%">:</td>
                             <td>{{ form.end_date }}</td>
                           </tr>
-                          <tr>
+                          <!-- <tr>
                             <th width="30%">Created By</th>
                             <td width="2%">:</td>
                             <td>{{ form.created_by }}</td>
@@ -332,7 +350,7 @@
                             <th width="30%">Updated By</th>
                             <td width="2%">:</td>
                             <td>{{ form.updated_by }}</td>
-                          </tr>
+                          </tr> -->
                           </tr> {% endfor %}
                         </table>
                       </div>
@@ -388,7 +406,7 @@
                             <td width="2%">:</td>
                             <td>{{ job.company_address }}</td>
                           </tr>
-                          <tr>
+                          <!-- <tr>
                             <th width="30%">Created By</th>
                             <td width="2%">:</td>
                             <td>{{ job.created_by }}</td>
@@ -397,58 +415,8 @@
                             <th width="30%">Updated By</th>
                             <td width="2%">:</td>
                             <td>{{ job.updated_by }}</td>
-                          </tr>
+                          </tr> -->
                           </tr> {% endfor %}
-                        </table>
-                      </div>
-                    </div>
-                    <div style="height: 26px"></div>
-                    <div class="card shadow-sm">
-                      <div class="card-header bg-transparent border-0">
-                        <h3 class="mb-0">
-                          <i class="far fa-clone pr-1"></i>Contact Information
-                        </h3>
-                        <div class="col-md-12 text-right">
-                          <input value="Update" type="button" onclick="location.href='{% url 'update_phone_no' skill_std_form.id %}'" class="btn btn-sm btn-outline-success">
-                        </div>
-                      </div>
-                      <div class="card-body pt-0">
-                        <table class="table table-bordered">
-                          <tr>
-                            <th width="30%">Personal Phone No 1</th>
-                            <td width="2%">:</td>
-                            <td>{{ phone_no_form.personal_phone_no_1 }}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Personal Phone No 2</th>
-                            <td width="2%">:</td>
-                            <td>{{ phone_no_form.personal_phone_no_2 }}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Father Phone No</th>
-                            <td width="2%">:</td>
-                            <td>{{ phone_no_form.father_phone_no }}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Mother Phone No</th>
-                            <td width="2%">:</td>
-                            <td>{{ phone_no_form.mother_phone_no }}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Emergency Phone No</th>
-                            <td width="2%">:</td>
-                            <td>{{ phone_no_form.emergency_phone_no }}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Created By</th>
-                            <td width="2%">:</td>
-                            <td>{{ phone_no_form.created_by }}</td>
-                          </tr>
-                          <tr>
-                            <th width="30%">Updated By</th>
-                            <td width="2%">:</td>
-                            <td>{{ phone_no_form.updated_by }}</td>
-                          </tr>
                         </table>
                       </div>
                     </div>
@@ -481,18 +449,48 @@
                             <td width="2%">:</td>
                             <td>{{ query.reply }}</td>
                           </tr>
+                          {% endfor %}
+                        </table>
+                      </div>
+                      <div style="height: 26px"></div>
+                    <div class="card shadow-sm">
+                      <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0">
+                          <i class="far fa-clone pr-1"></i>Already Registered Details
+                        </h3>
+                        <div class="col-md-12 text-right">
+                          <input value="Add New" type="button" onclick="location.href='{% url 'alreadyregisteredwithcoursebodyview' skill_std_form.id %}'" class="btn btn-sm btn-success">
+                        </div>
+                      </div>
+                      <div class="card-body pt-0">
+                        <table class="table table-bordered"> {% for alreadY_registered_object in already_registered_form %} <tr>
+                            <th width="30%">
+                              <div class=" text-center">{{ forloop.counter }}</div>
+                            </th>
+                            <td width="2%">:</td>
+                            <td>
+                              <div class="col-md-12 text-right">
+                              <input value="Update" type="button" onclick="location.href='{% url 'updatealreadyregisteredwithcoursebody' alreadY_registered_object.id %}'" class="btn btn-sm btn-outline-success ">
+                            </div>
+                          </td>
                           <tr>
+                            <th width="30%">Already registered with</th>
+                            <td width="2%">:</td>
+                            <td>{{ alreadY_registered_object.course_body }}</td>
+                          <!-- </tr>
                             <th width="30%">Created By</th>
                             <td width="2%">:</td>
-                            <td>{{ query.created_by }}</td>
+                            <td>{{ alreadY_registered_object.created_by }}</td>
                           </tr>
                           <tr>
                             <th width="30%">Updated By</th>
                             <td width="2%">:</td>
-                            <td>{{ query.updated_by }}</td>
+                            <td>{{ alreadY_registered_object.updated_by }}</td>
+                          </tr> -->
                           </tr> {% endfor %}
                         </table>
                       </div>
+                    </div>
                     </div>
                   </div>
                 </div>

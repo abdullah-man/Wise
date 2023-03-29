@@ -19,7 +19,7 @@ class PreQualification(models.Model):
 # model to add skill student 
 class SkillStudent(models.Model):
 	"""
-		Skill Student details.
+		Personal details of a Skill Student.
 	"""
 	
 	# drop down choices for residencial status
@@ -33,24 +33,6 @@ class SkillStudent(models.Model):
 	('Male','Male'),
 	('Female','Female'),
 	('Intersex','Intersex'),
-	)
-
-	# drop down choices for shifts
-	shifts_choice = (
-	('Morning','Morning'),
-	('Afternoon','Afternoon'),
-	('Evening','Evening'),
-	('Night','Night'),
-	)
-	
-	# drop down choices for program of interests
-	program_of_interest_choice = (
-	('Artifical Intelligence','Artifical Intelligence'),
-	('Big Data','Big Data'),
-	('Blockchain Programming','Blockchain Programming'),
-	('Graphics Designing','Graphics Designing'),
-	('Graphics and Web Design','Graphics and Web Design'),
-	('Digital Marketing','Digital Marketing')
 	)
 
 	# drop down choices for transportations
