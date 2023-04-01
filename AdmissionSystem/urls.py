@@ -10,7 +10,7 @@ urlpatterns = [
     path('user_profile/', views.user_profile, name='user_profile'),
  
  
-#-------------------- Main Views -----------------------------------------------
+#------------------------- Main Views ----------------------
     # main
     path('',views.homeview,name='homeview'),
     path('addskillstudentview/',views.addskillstudentview,name='addskillstudentview'),
@@ -30,9 +30,11 @@ urlpatterns = [
     path('add_shift_name/', views.shift_name_view, name='shiftnameview'),
     path('add_course_section/', views.course_section_view, name='coursesectionview'),
     path('add_already_registered_with_course_body/<int:student_id>/', views.already_regitered_with_course_body_view, name='alreadyregisteredwithcoursebodyview'),
+    path('add_document/<int:student_id>/', views.document_view, name='documentview'),
+    path('download_document/<int:document_id>/', views.download_document, name='downloadview'),
 
 
-#----------------------- Delete Skill Students -----------------------
+#--------------------------- Delete -----------------------
  
     path('delete_skillstudent/<int:id>/',views.delete_skill_student,name='delete_skill_student'),
     path('delete_shortcoursetaken/<int:id>/<int:student_id>/',views.delete_shortcoursetaken,name='delete_shortcoursetaken'),
@@ -47,9 +49,10 @@ urlpatterns = [
     path('delete_shift_name/<int:shift_name_id>/',views.delete_shift_name,name='delete_shiftname'),
     path('delete_course_section/<int:course_section_id>/',views.delete_course_section,name='delete_coursesection'),
     path('delete_already_registered_with_course_body/<int:already_registered_id>/',views.delete_already_regitered_with_course_body,name='delete_alreadyregisteredwithcoursebody'),
+    path('delete_document/<int:document_id>/', views.delete_document, name='delete_document'),
 
 
-#----------------------------- Update --------------------------------
+#----------------------------- Update ----------------------
 
     path('update_skill_student/<int:student_id>/',views.update_skill_student,name='update_skill_student'), 
     path('update_current_study/<int:student_id>/',views.update_current_study,name='update_current_study'),
@@ -71,6 +74,7 @@ urlpatterns = [
     path('update_shift_name/<int:shift_name_id>/',views.update_shift_name,name='updateshiftname'),
     path('update_course_section/<int:course_section_id>/',views.update_course_section,name='updatecoursesection'),
     path('update_already_registered_with_course_body/<int:already_registered_id>/',views.update_already_regitered_with_course_body,name='updatealreadyregisteredwithcoursebody'),
+    path('update_document/<int:document_id>/',views.update_document,name='updatedocument'),
 
 
 
@@ -86,6 +90,7 @@ urlpatterns = [
     path('course_batch_no_dashboard/',views.course_batch_no_dashboard,name='coursebatchnodashboard'),
     path('shift_name_dashboard/',views.shift_name_dashboard,name='shiftnamedashboard'),
     path('course_section_dashboard/',views.course_section_dashboard,name='coursesectiondashboard'),
+    path('document_dashboard/<int:student_id>/',views.document_dashboard,name='documentdashboard'),
 
 
 ]

@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+{% block css %}
+		<style>
+			h1, h2, h3, h4, h5, h6 {
+				text-align: center;
+				color: #094a89;
+				font-family: timesnewroman;
+
+			}
+			table{
+				border-collapse: collapse;
+				width: 100%;
+				text-align: center;
+				font-size: 20px;
+				font-family: timesnewroman;
+
+			}
+			th{
+				background-color: #094a89;
+				color: white;
+
+			}
+			th, td{
+				border: 2px solid #ddd;
+
+			}
+
+		</style>
+
+{% endblock css %}
+
+<div class="col-md-15">
+ 		<h1 class="text-center">Documents</h1>
+		
+		<div class="card card-body">
+			<input value="Add New" type="button" onclick="location.href='{% url 'documentview' student_id %}'" class="btn btn-sm btn-success">
+				<table id="search-table" class="users-table mt-4">
+
+						<tr>
+							<th>Doc ID</th>
+							<th>Document Type</th>
+							<th>Holding Status</th>
+							<th>File Download</th>
+							<th>Update</th>
+							<th>Delete</th>
+						</tr>
+
+						{% for data in alldata %}
+								<tr>
+									{% for column in data %}
+									<td>{{ column }}</td>
+									{% endfor %}
+									<td>
+										<input value="Download the file   " type="text" onclick="location.href='{% url 'downloadview' data.0 %}'" class="btn btn-sm btn-outline-success">
+									</td>
+ 									<td>
+										<input value="Update" type="button" onclick="location.href='{% url 'updatedocument' data.0 %}'" class="btn btn-sm btn-outline-success">
+									</td>
+									<td>
+										<input value="Delete" type="button" onclick="location.href='{% url 'delete_document' data.0 %}'" class="btn btn-sm btn-outline-danger">
+									</td>
+
+								</tr>
+						
+						{% endfor %}
+
+				</table>
+				<br>
+ 		</div>
+</div>
+{% endblock %}

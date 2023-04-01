@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate , login , logout
 from django.contrib.auth.decorators import login_required
 from .view_helper_functions import generate_context
 from django.core.exceptions import *
+from django.http import FileResponse # for file download
  
 # ----------------------------------------------------------------------------------------
 # 							LOGIN / LOGOUT
@@ -278,6 +279,8 @@ def skill_student_detail_view(request,student_id):
 	short_course_taken_query_set=ShortCoursesTaken.objects.filter(student_id=student_id)
 	availability_query_set=StudentAvailability.objects.filter(student_id=student_id)
 	already_registered_query_set=AlreadyRegisteredWithCourseBody.objects.filter(student_id=student_id)
+	document__query_set=Document.objects.filter(student_id=student_id)
+
 
 	# only one object exists in these quesry sets. Thus, getting it.
 	skill_std = skill_std__query_set.first() 
@@ -296,7 +299,8 @@ def skill_student_detail_view(request,student_id):
 		'job_form':job_form_query_set,
 		'query_form':contacted_query_set,
 		'availability_form':availability_query_set,
-		'already_registered_form':already_registered_query_set
+		'already_registered_form':already_registered_query_set,
+		'document__form':document__query_set
 	}
 
 	return render(request,"skill_student_detail_view.html",context=context)
@@ -813,6 +817,115 @@ def delete_document_type(request, document_type_id):
 		return redirect('documenttypedashboard')
 
 # Document -------------------
+
+@login_required(login_url='loginpageview')
+def document_view(request, student_id):
+	"""
+		On Get request, this view displays DocumentForm to be filled.
+		On Post request, it uploads the document.
+		params:
+			student_id : id of the student whose document is being uploaded
+	"""
+	if request.method == "POST": 
+		document_form = DocumentForm(request.POST, request.FILES) #added request.FILES for file upload
+		if document_form.is_valid():
+			document_form.save()
+			messages.success(request, ('Document was successfully uploaded!'))
+			return redirect('documentdashboard', student_id)
+		else:
+			messages.error(request, 'Error uploading Document')
+			return redirect('documentdashboard', student_id)
+
+	document_form = DocumentForm()
+	return render(request=request, template_name="add_document.html", context={'document_form':document_form, 'student_id':student_id})
+
+
+
+@login_required(login_url='loginpageview')
+def download_document(request, document_id):
+	"""
+		Retrieves the file and sends it back to the user as FileResponse.
+		params:
+			document_id  :  id of the document to be downloaded
+	"""
+	document_object = Document.objects.get(id = document_id)
+	# file path is in the 'path' attribute of file object which is specified as a model field under doc_file name
+	file_path = document_object.doc_file.path
+
+	# if document_object.doc_file is passed as file path, it raises an error saying
+	# that a str object is expected whereas a file-field object has been passed.
+	return FileResponse(open(file_path, 'rb'), as_attachment=True, content_type='application/pdf')
+
+
+
+@login_required(login_url='loginpageview')
+def document_dashboard(request, student_id): # student_id is being passed from skill_student_detail_view's button for this view
+
+	document_query_set = Document.objects.filter(student_id=student_id) # getting all document instances against this student_id
+
+	all_data = list()
+	for document_object in document_query_set:
+		doc_data = list()	
+
+		doc_data.append(document_object.id)
+		doc_data.append(document_object.doc_type)
+		doc_data.append(document_object.original_held)
+		
+		all_data.append(doc_data)
+
+	context = {'alldata': all_data, 'student_id':student_id} # passing student_id here for use in update and delete
+	return render(request,'document_dashboard.html',context=context)
+
+
+
+@login_required(login_url='loginpageview')
+def update_document(request, document_id):
+	"""
+		This view updates information of a student's 'document'.
+		On Get request, it fetches and displays the document object data.
+		On Post request, it updates the information and redirects to document dashboard.
+		params:
+			document_id : id of document object which is to be updated
+	"""
+
+	document_object=Document.objects.get(id=document_id) # get returns the only matching object
+	form = DocumentForm(instance=document_object)
+
+	# for returning back to the document dashboard of this student
+	student_id = document_object.student
+
+	if request.method=='POST':
+		form = DocumentForm(request.POST, request.FILES, instance=document_object)
+		if form.is_valid():
+			form.save()
+			return redirect('documentdashboard', student_id)
+	
+	return render(request,'update_document.html',context= {'document_form':form})
+
+
+
+@login_required(login_url='loginpageview')
+def delete_document(request, document_id):
+	"""
+		This view deletes a document.
+		params:
+			document_id:	id of document object which is to be deleted
+	"""
+
+	document_object=Document.objects.get(id=document_id)
+	# for returning back to the document dashboard of this student
+	student_id = document_object.student
+
+	# deleting the object
+	try:
+		document_object.delete()
+		# redirecting back to the update view of the student
+		return redirect('documentdashboard', student_id)
+	except Exception:
+		messages.info(request, 'Error. Object could not be deleted. Try again.')
+		return redirect('documentdashboard', student_id)
+
+
 
 # Prequalification -------------------
 

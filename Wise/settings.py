@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "AdmissionSystem.apps.AdmissionsystemConfig",
     "django_filters",
     "django_extensions",
+    'django_cleanup.apps.CleanupConfig',
 ]
 
 MIDDLEWARE = [

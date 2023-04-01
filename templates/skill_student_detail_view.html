@@ -414,10 +414,37 @@
                             <td width="2%">:</td>
                             <td>{{ alreadY_registered_object.updated_by }}</td>
                           </tr> -->
-                          </tr> {% endfor %}
+                          </tr> 
+                          {% endfor %}
                         </table>
                       </div>
                     </div>
+                    <div style="height: 26px"></div>
+                    <div class="card shadow-sm">
+                      <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0">
+                          <i class="far fa-clone pr-1"></i>Document Details
+                        </h3>
+                      </div>
+                      <div class="card-body pt-0">
+                        <table class="table table-bordered"> {% for document in document__form %} <tr>
+                          <tr>
+                            <th width="22%">Document</th>
+                            <td width="2%">:</td>
+                            <td>{{ document.doc_type }}</td>
+                            <th width="22%">Holding Status</th>
+                            <td width="2%">:</td>
+                            {% if document.original_held %}
+                              <td>Original held</td>
+                            {% else %}
+                            <td>Not held</td>
+                            {% endif %}
+                          </tr> 
+                          {% endfor %}
+                        </table>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
