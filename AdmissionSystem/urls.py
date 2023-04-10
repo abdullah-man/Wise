@@ -32,6 +32,7 @@ urlpatterns = [
     path('add_already_registered_with_course_body/<int:student_id>/', views.already_regitered_with_course_body_view, name='alreadyregisteredwithcoursebodyview'),
     path('add_document/<int:student_id>/', views.document_view, name='documentview'),
     path('download_document/<int:document_id>/', views.download_document, name='downloadview'),
+    path('add_course_application/<int:student_id>/', views.course_application_view, name='courseapplicationview'),
 
 
 #--------------------------- Delete -----------------------
@@ -50,6 +51,7 @@ urlpatterns = [
     path('delete_course_section/<int:course_section_id>/',views.delete_course_section,name='delete_coursesection'),
     path('delete_already_registered_with_course_body/<int:already_registered_id>/',views.delete_already_regitered_with_course_body,name='delete_alreadyregisteredwithcoursebody'),
     path('delete_document/<int:document_id>/', views.delete_document, name='delete_document'),
+    path('delete_course_application/<int:application_id>/', views.delete_course_application, name='delete_courseapplication'),
 
 
 #----------------------------- Update ----------------------
@@ -75,6 +77,7 @@ urlpatterns = [
     path('update_course_section/<int:course_section_id>/',views.update_course_section,name='updatecoursesection'),
     path('update_already_registered_with_course_body/<int:already_registered_id>/',views.update_already_regitered_with_course_body,name='updatealreadyregisteredwithcoursebody'),
     path('update_document/<int:document_id>/',views.update_document,name='updatedocument'),
+    path('update_course_application/<int:application_id>/',views.update_course_application,name='updatecourseapplication'),
 
 
 

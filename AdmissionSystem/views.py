@@ -280,6 +280,7 @@ def skill_student_detail_view(request,student_id):
 	availability_query_set=StudentAvailability.objects.filter(student_id=student_id)
 	already_registered_query_set=AlreadyRegisteredWithCourseBody.objects.filter(student_id=student_id)
 	document__query_set=Document.objects.filter(student_id=student_id)
+	course_application_query_set = CourseApplication.objects.filter(student_id=student_id)
 
 
 	# only one object exists in these quesry sets. Thus, getting it.
@@ -300,7 +301,8 @@ def skill_student_detail_view(request,student_id):
 		'query_form':contacted_query_set,
 		'availability_form':availability_query_set,
 		'already_registered_form':already_registered_query_set,
-		'document__form':document__query_set
+		'document_form':document__query_set,
+		'course_application_form':course_application_query_set
 	}
 
 	return render(request,"skill_student_detail_view.html",context=context)
@@ -705,7 +707,8 @@ def update_skill_detail_view(request, student_id):
 	job_form_query_set=Job.objects.filter(student_id=student_id)
 	short_course_taken_query_set=ShortCoursesTaken.objects.filter(student_id=student_id)
 	availability_query_set=StudentAvailability.objects.filter(student_id=student_id)
-	already_applied_query_set=AlreadyRegisteredWithCourseBody.objects.filter(student_id=student_id)
+	already_registered_query_set=AlreadyRegisteredWithCourseBody.objects.filter(student_id=student_id)
+	document__query_set=Document.objects.filter(student_id=student_id)
 
 	# only one object exists in these quesry sets. Thus, getting it.
 	skill_std = skill_std__query_set.first() 
@@ -725,7 +728,8 @@ def update_skill_detail_view(request, student_id):
 		'job_form':job_form_query_set,
 		'query_form':contacted_query_set,
 		'availability_form':availability_query_set,
-		'already_registered_form':already_applied_query_set
+		'already_registered_form':already_registered_query_set,
+		'document_form':document__query_set
 	}
 
 	return render(request,"update_skill_detail_view.html",context=context)
@@ -1319,11 +1323,6 @@ def delete_course_batch_no(request, course_batch_id):
 
 
 
-# Course Applicaiton -------------------
-
-
-# Roll No -------------------
-
 # Already Registered With Course Conducting Body -------------------
 
 @login_required(login_url='loginpageview')
@@ -1499,10 +1498,10 @@ def course_section_view(request):
 		if course_section_form.is_valid():
 			course_section_form.save()
 			messages.success(request, 'Course-Section was successfully added!')
-			return redirect('homeview')
+			return redirect('coursesectiondashboard')
 		else:
 			messages.error(request, 'Error saving Course-Section information.')
-			return redirect('homeview')
+			return redirect('coursesectiondashboard')
 
 	course_section_form = CourseSectionForm()
 	return render(request=request, template_name="add_course_section.html", context={'course_section_form':course_section_form})
@@ -1571,4 +1570,42 @@ def delete_course_section(request, course_section_id):
 		return redirect('coursesectiondashboard')
 
 
+# Course Applicaiton -------------------
+
+@login_required(login_url='loginpageview')
+def course_application_view(request, student_id):
+	"""
+		On Get request, this view displays CourseApplicationForm to be filled.
+		On Post request, it adds Course-Application's information to db.
+		params:
+			student_id : id of the student for who the course application is being generated
+	"""
+	if request.method == "POST":
+		course_application_form = CourseApplicationForm(request.POST)
+		if course_application_form.is_valid():
+			course_application_form.save()
+			messages.success(request, 'Course-Application was successfully added!')
+			return redirect('homeview')
+		else:
+			messages.error(request, 'Error saving Course-Application information.')
+			return redirect('homeview')
+
+	course_application_form = CourseApplicationForm()
+	return render(request=request, template_name="add_course_application.html", context={'course_application_form':course_application_form, 'student_id':student_id})
+
+
+
+
+@login_required(login_url='loginpageview')
+def update_course_application(request, application_id):
+	pass
+
+
+@login_required(login_url='loginpageview')
+def delete_course_application(request, application_id):
+	pass
+
+
+
+# Roll No -------------------
 

@@ -53,6 +53,19 @@
                         </p> 
                         {% endif %}
                         <br>
+                        <!-- New Course Application Button -->
+                        <div class="col-md-12 text-right">
+                          <input value="New Course Application" type="button" onclick="location.href='{% url 'documentdashboard' skill_std_form.id %}'" class="btn btn-sm btn-primary mx-auto d-block">
+                        </div>
+                        <br>
+                        <!-- Document Dashboard Button -->
+                        <div class="col-md-12 text-right">
+                          <input value="Document Dashboard" type="button" onclick="location.href='{% url 'documentdashboard' skill_std_form.id %}'" class="btn btn-sm btn-success mx-auto d-block">
+                        </div>
+                        <br>
+                      </div>
+                      <!-- Update Button -->
+                      <div class="card-header bg-transparent text-center">
                         <input value="Update" type="button" style="width: 50%;" onclick="location.href='{% url 'update_skill_detail_view' skill_std_form.id %}'" class="btn btn-lg btn-outline-success mx-auto d-block">
                       </div>
                     </div>
@@ -62,7 +75,7 @@
                     <div class="card shadow-sm">
                       <div class="card-header bg-transparent border-0">
                         <h3 class="mb-0">
-                          <i class="far fa-clone pr-1"></i>Personal Information
+                          <i class="far fa-clone pr-1"></i>Personal Details
                         </h3>
                       </div>
                       <div class="card-body pt-0">
@@ -113,12 +126,20 @@
                             <td>{{skill_std_form.transportation}}</td>
                             <th width="22%">Computer at Home</th>
                             <td width="2%">:</td>
-                            <td>{{skill_std_form.computer_at_Home}}</td>
+                            {% if skill_std_form.computer_at_Home %}
+                              <td>Yes</td>
+                            {% else %}
+                              <td>No</td>
+                            {% endif %}
                           </tr>
                           <tr>
                             <th width="22%">Laptop at Home</th>
                             <td width="2%">:</td>
-                            <td>{{skill_std_form.laptop}}</td>
+                            {% if skill_std_form.laptop %}
+                              <td>Yes</td>
+                            {% else %}
+                              <td>No</td>
+                            {% endif %}
                             <th width="23%">Pre Qualification</th>
                             <td width="2%">:</td>
                             <td>{{skill_std_form.pre_qualification}}</td>
@@ -146,7 +167,7 @@
                     <div class="card shadow-sm">
                       <div class="card-header bg-transparent border-0">
                         <h3 class="mb-0">
-                          <i class="far fa-clone pr-1"></i>Contact Information
+                          <i class="far fa-clone pr-1"></i>Contact Details
                         </h3>
                       </div>
                       <div class="card-body pt-0">
@@ -176,6 +197,61 @@
                             <td width="2%">:</td>
                             <td>{{ phone_no_form.emergency_phone_no }}</td>
                           </tr>
+                        </table>
+                      </div>
+                    </div>
+                    <div style="height: 26px"></div>
+                    <div class="card shadow-sm">
+                      <div class="card-header bg-transparent border-0">
+                        <h3 class="mb-0">
+                          <i class="far fa-clone pr-1"></i>Applications Details
+                        </h3>
+                      </div>
+                      <div class="card-body pt-0">
+                        <table class="table table-bordered"> {% for course_application in course_application_form %} <tr>
+                            <th width="22%">
+                              <div class=" text-center">{{ forloop.counter }}</div>
+                            </th>
+                            <td width="2%">:</td>
+                          <tr>
+                            <th width="22%">Course Name</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.course_name }}</td>
+                            <th width="22%">Course Body</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.course_body }}</td>
+                          </tr>
+                          <tr>
+                            <th width="22%">Course Batch</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.batch }}</td>
+                            <th width="22%">Admission Status</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.admission_status }}</td>
+                          </tr>
+                          <tr>
+                            <th width="22%">Form No.</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.form_no }}</td>
+                            <th width="22%">Date Applied</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.date_applied }}</td>
+                          </tr>
+                          <tr>
+                            <th width="22%">Shift</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.shift }}</td>
+                            <th width="22%">Section</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.section }}</td>
+                          </tr>
+                          <tr>
+                            <th width="22%">Remarks</th>
+                            <td width="2%">:</td>
+                            <td>{{ course_application.remarks }}</td>
+                          </tr>
+                          
+                          {% endfor %}
                         </table>
                       </div>
                     </div>
@@ -267,7 +343,7 @@
                     <div class="card shadow-sm">
                       <div class="card-header bg-transparent border-0">
                         <h3 class="mb-0">
-                          <i class="far fa-clone pr-1"></i>Short Course Information
+                          <i class="far fa-clone pr-1"></i>Short Course Details
                         </h3>
                       </div>
                       <div class="card-body pt-0">
@@ -368,7 +444,7 @@
                     <div class="card shadow-sm">
                       <div class="card-header bg-transparent border-0">
                         <h3 class="mb-0">
-                          <i class="far fa-clone pr-1"></i>Query Information
+                          <i class="far fa-clone pr-1"></i>Query Details
                         </h3>
                       </div>
                       <div class="card-body pt-0">
@@ -394,11 +470,13 @@
                         </h3>
                       </div>
                       <div class="card-body pt-0">
-                        <table class="table table-bordered"> {% for alreadY_registered_object in already_registered_form %} <tr>
+                        <table class="table table-bordered"> {% for alreadY_registered_object in already_registered_form %} 
+                          <!-- <tr>
                             <th width="22%">
                               <div class=" text-center">{{ forloop.counter }}</div>
                             </th>
                             <td width="2%">:</td>
+                          </tr> -->
                           <tr>
                             <th width="22%">Already registered</th>
                             <td width="2%">:</td>
@@ -425,9 +503,12 @@
                         <h3 class="mb-0">
                           <i class="far fa-clone pr-1"></i>Document Details
                         </h3>
+                        <div class="col-md-12 text-right">
+                          <input value="Document Dashboard" type="button" onclick="location.href='{% url 'documentdashboard' skill_std_form.id %}'" class="btn btn-sm btn-success">
+                        </div>
                       </div>
                       <div class="card-body pt-0">
-                        <table class="table table-bordered"> {% for document in document__form %} <tr>
+                        <table class="table table-bordered"> {% for document in document_form %} <tr>
                           <tr>
                             <th width="22%">Document</th>
                             <td width="2%">:</td>
